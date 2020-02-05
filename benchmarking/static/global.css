@@ -1,3 +1,16 @@
 body {
   font-family: Helvetica Neue, sans-serif;
 }
+td {
+  text-align: right;
+}
+tbody tr:nth-child(even) {
+  background: #dddddd;
+}
+td:first-child {
+  text-align: left;
+}
+tbody td {
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
+}

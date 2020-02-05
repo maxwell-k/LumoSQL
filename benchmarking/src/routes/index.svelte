@@ -16,7 +16,8 @@
     getVersions,
     median
   } from "../utils/arrange.mjs";
-  import { column, join } from "../utils/format.mjs";
+  import { column } from "../utils/format.mjs";
+  import All from "./_components/All.svelte";
 
   const digits = 4;
   const runs = getRunNames(dataset);
@@ -30,40 +31,8 @@
   p.intro {
     width: 15rem;
   }
-  table.all {
-    table-layout: fixed;
-  }
-  .test {
-    white-space: nowrap;
-  }
   table.medians col:first-child {
     width: 1rem;
-  }
-  thead thead td[colspan] {
-    text-align: center;
-  }
-  td:first-child {
-    text-align: left;
-  }
-  td {
-    text-align: right;
-  }
-  .versions {
-    border-bottom: thin solid black;
-    text-align: center;
-  }
-  tbody tr:nth-child(even) {
-    background: #dddddd;
-  }
-  tbody tr:nth-child(odd) {
-    background: #ffffff;
-  }
-  tbody td {
-    padding-left: 0.2rem;
-    padding-right: 0.2rem;
-  }
-  col {
-    width: 8rem;
   }
   td.rotate {
     text-align: left;
@@ -166,6 +135,24 @@
 </details>
 
 <details>
+  <summary>Raw data</summary>
+  <ul>
+    {#each paths as path}
+      <li>
+        <a href={path}>{path}</a>
+      </li>
+    {/each}
+  </ul>
+</details>
+
+<details>
+  <summary>All data in one table</summary>
+  <div>
+    <All {dataset} />
+  </div>
+</details>
+
+<details>
   <summary>Key</summary>
   <h2>Versions</h2>
   <dl>
@@ -182,87 +169,4 @@
       <dd>{test}</dd>
     {/each}
   </dl>
-</details>
-
-<details>
-  <summary>Raw data</summary>
-  <ul>
-    {#each paths as path}
-      <li>
-        <a href={path}>{path}</a>
-      </li>
-    {/each}
-  </ul>
-</details>
-
-<details>
-  <summary>All data in one table</summary>
-  <div>
-    <h2>Underlying data in one table</h2>
-
-    <p>
-      {runs.length} run{runs.length - 1 ? 's' : ''}: {join(runs)}, measured in
-      seconds.
-    </p>
-
-    <dl>
-      {#each versions as version, index}
-        <dt>{column(index)}</dt>
-        <dd>
-          <code>{version}</code>
-        </dd>
-      {/each}
-    </dl>
-
-    <table class="all">
-      <colgroup>
-        <col />
-        {#each runs as run}
-          {#each versions as version}
-            <col />
-          {/each}
-        {/each}
-      </colgroup>
-      <thead>
-        <tr>
-          <td />
-          {#each runs as run}
-            <td class="versions" colspan={versions.length}>{run}</td>
-          {/each}
-        </tr>
-        <tr>
-          <td />
-          {#each runs as run}
-            {#each versions as version, index}
-              <td>{column(index)}</td>
-            {/each}
-          {/each}
-        </tr>
-      </thead>
-
-      <tbody>
-        {#each tests as test}
-          <tr>
-            <td class="test">
-              <code>{test}</code>
-            </td>
-
-            {#each runs as run}
-              {#each versions as version}
-                <td>
-                  {nested
-                    .get(run)
-                    .get(version)
-                    .get(test)
-                    .toFixed(digits)}
-                </td>
-              {/each}
-            {/each}
-
-          </tr>
-        {/each}
-      </tbody>
-    </table>
-  </div>
-
 </details>

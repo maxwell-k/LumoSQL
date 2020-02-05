@@ -1,4 +1,4 @@
-/* eslint-env node */
+/* global process */
 import { convert, set } from "../utils/html.mjs";
 
 const path = process.env.DATA || "test/data";

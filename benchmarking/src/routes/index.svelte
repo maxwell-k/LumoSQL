@@ -7,6 +7,9 @@
 </script>
 
 <script>
+  /* global process */
+  const title = process.env.TITLE || "Draft LumoSQL Benchmarking";
+
   export let dataset;
 
   import {
@@ -23,7 +26,6 @@
   const versions = getVersions(dataset);
   const tests = getTests(dataset);
   const nested = unconvert(dataset);
-  const title = process.env.TITLE || "Draft LumoSQL Benchmarking";
 </script>
 
 <style>

@@ -1,5 +1,5 @@
 <script>
-  /* eslint-env node */
+  /* global process */
   export let status;
   export let error;
 

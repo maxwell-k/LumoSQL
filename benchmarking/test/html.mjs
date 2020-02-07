@@ -2,10 +2,13 @@
 
 import { strict as assert } from "assert";
 import { promises as fsPromises } from "fs";
+import { tmpdir } from "os";
+import path from "path";
 
 import {
   compare,
   convert,
+  copy,
   report,
   run,
   set,
@@ -14,7 +17,7 @@ import {
 } from "../src/utils/html.mjs";
 
 // Manually parsed results matching reports in test/data/1
-const path = "test/data/1/SQLite-3.30.1.html"; // path for expected report
+const example_path = "test/data/1/SQLite-3.30.1.html"; // path for expected report
 const expected = new Map();
 expected.set(
   "3.30.1 2019-10-10 20:19:45 18db032d058f1436ce3dea84081f4ee5a0f2259ad97301d43c426bc7f3df1b0b",
@@ -57,7 +60,7 @@ describe("times", function() {
     );
   });
   it("Extracts names and times from a file", async function() {
-    const html = await fsPromises.readFile(path, { encoding: "utf8" });
+    const html = await fsPromises.readFile(example_path, { encoding: "utf8" });
     assert.deepEqual(times(html), expected.values().next().value);
   });
 });
@@ -74,7 +77,7 @@ describe("version", function() {
     );
   });
   it("Extracts a single version from an HTML file", async function() {
-    const html = await fsPromises.readFile(path, { encoding: "utf8" });
+    const html = await fsPromises.readFile(example_path, { encoding: "utf8" });
     assert.equal(expected.keys().next().value, version(html));
   });
   it("Throws an exception on multiple versions", function() {
@@ -93,7 +96,7 @@ describe("version", function() {
 
 describe("report", function() {
   it("Parses a single report as expected", async function() {
-    assert.deepEqual(await report(path), expected);
+    assert.deepEqual(await report(example_path), expected);
   });
 });
 
@@ -203,5 +206,12 @@ describe("compare", function() {
     const copy = versions.slice();
     copy.sort(compare);
     assert.deepEqual(copy, versions);
+  });
+});
+describe("copy", function() {
+  it("one file", async function() {
+    const to = await fsPromises.mkdtemp(path.join(tmpdir(), "lumosql-"));
+    const result = await copy("test/data", to);
+    assert.deepEqual(result, 8);
   });
 });

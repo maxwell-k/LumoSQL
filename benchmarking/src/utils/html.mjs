@@ -2,6 +2,7 @@ import { promises as fsPromises } from "fs";
 import path from "path";
 
 import cheerio from "cheerio";
+/* globals process */
 
 /**
  * Extract the version number from HTML
@@ -127,4 +128,29 @@ export function compare(a, b) {
   if (a_array.length == b_array.length) return 0;
   else if (a_array.length < b_array.length) return -1;
   else return 1;
+}
+/**
+ * Copy files with names ending in 'html' from subdirectories of from to to
+ * @param from {string} Directory to copy from
+ * @param to {string} Directory to copy to
+ * @returns {(number)} The number of files copied
+ */
+export async function copy(from = process.env.DATA, to = "static/default/") {
+  await fsPromises.mkdir(to);
+  const entries = await fsPromises.readdir(from, { withFileTypes: "true" });
+  const directories = entries.filter(i => i.isDirectory()).map(i => i.name);
+  let copied = 0;
+  for (const directory of directories) {
+    await fsPromises.mkdir(path.join(to, directory));
+    let filenames = await fsPromises.readdir(path.join(from, directory));
+    filenames = filenames.filter(i => i.endsWith("html"));
+    for (const filename of filenames) {
+      await fsPromises.copyFile(
+        path.join(from, directory, filename),
+        path.join(to, directory, filename)
+      );
+      copied++;
+    }
+  }
+  return copied;
 }

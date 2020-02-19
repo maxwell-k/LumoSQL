@@ -135,7 +135,10 @@ export function compare(a, b) {
  * @param to {string} Directory to copy to
  * @returns {(number)} The number of files copied
  */
-export async function copy(from = process.env.DATA, to = "static/default/") {
+export async function copy(
+  from = process.env.DATA,
+  to = "static/datasets/default/"
+) {
   await fsPromises.mkdir(to);
   const entries = await fsPromises.readdir(from, { withFileTypes: "true" });
   const directories = entries.filter(i => i.isDirectory()).map(i => i.name);

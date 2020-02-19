@@ -87,8 +87,85 @@ This benchmarking project:
 
 ## Tests
 
-This project uses the [Mocha](https://mochajs.org) test framework. Mocha's
-support for ES Modules with Node is a
+### Dependencies
+
+We use [Mocha](https://mochajs.org) for unit tests and
+[Cypress](https://cypress.io) for integration tests. The following commands
+should set up the dependencies on Fedora 31:
+
+```sh
+sudo dnf upgrade --assumeyes &&
+sudo dnf install --assumeyes \
+  nodejs gtk3 alsa-lib nss libXScrnSaver libcanberra-gtk3 &&
+sudo npm install -g npm &&
+npm ci
+```
+
+If all dependencies are installed, `npm test` will run both the unit and
+integration tests.
+
+Mocha's support for ES Modules is a
 [work in progress](https://github.com/mochajs/mocha/pull/4038). The version of
 mocha specified in `package.json` is an experimental release with support for ES
 Modules.
+
+<details>
+
+These instructions were tested in a
+[toolbox](https://github.com/containers/toolbox):
+
+```sh
+toolbox create --release 31 &&
+toolbox enter --release 31
+```
+
+It is necessary to set configure the display as an environment variable:
+
+```sh
+export DISPLAY=":0"
+```
+
+If you forget to configure the display, you will receive an errors starting
+with:
+
+```
+Your system is missing the dependency: Xvfb
+```
+
+These instructions were tested with:
+
+```sh
+$ node --version
+v12.15.0
+$ npm --version
+6.13.4
+```
+
+</details>
+
+### Unit tests
+
+```sh
+npm run unit
+npm run unit:debug
+```
+
+### Integration tests
+
+First run the development server:
+
+```sh
+npm run dev
+```
+
+Then run the integration tests:
+
+```sh
+npm run cypress
+```
+
+To debug integration tests try:
+
+```sh
+npx cypress open
+```

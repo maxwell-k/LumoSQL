@@ -82,7 +82,6 @@
     "eslint-plugin-svelte3": "^2.7.3",
     "jsdoc": "^3.6.3",
     "mocha": "7.0.0-esm1",
-    "npm-run-all": "^4.1.5",
     "prettier": "^1.19.1",
     "prettier-plugin-svelte": "^0.7.0",
     "rollup": "^1.20.0",
@@ -101,10 +100,9 @@
     "export": "sapper export",
     "format": "prettier --write '*.{js,json}' '**/*.{js,json,mjs,svelte}'",
     "gh-pages": "npm run build && npm run export && rm -rf gh-pages/* && cp -r __sapper__/export/* gh-pages/ && git -C gh-pages add .",
-    "integration": "run-p --race dev cypress",
     "lint": "eslint 'src/**' 'cypress/**' 'test/**'",
     "start": "node __sapper__/build",
-    "test": "run-s unit cypress",
+    "test": "npm run unit && npm run cypress",
     "unit": "node --experimental-modules $(npm bin)/mocha",
     "unit:debug": "node inspect --experimental-modules $(npm bin)/mocha"
   }

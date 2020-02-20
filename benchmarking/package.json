@@ -96,6 +96,7 @@
     "apidocs": "jsdoc -c .jsdoc.conf.json",
     "build": "sapper build",
     "coverage": "c8 npm run unit",
+    "coverage:check": "c8 check-coverage --functions 100 --lines 100 --branches 100 --statements 100 --per-file",
     "cypress": "cypress run",
     "dev": "sapper dev",
     "export": "sapper export",

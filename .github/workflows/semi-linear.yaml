@@ -1,13 +1,14 @@
 on: { push: { branches: [staging, trying] } }
 
 jobs:
-  check:
+  check_rebase:
     runs-on: ubuntu-latest
+    container: { image: "quay.io/keith_maxwell/lumosql-build:fedora" }
     name: Semi linear
     steps:
       - uses: actions/checkout@v2
       - name: Fetch all history so that later commands succeed
-        run: git fetch --prune --unshallow
+        run: git fetch --prune --unshallow || true
       - name: Fail if the branch requires a rebase
         run:
           test "$(git rev-parse origin/master)" = "$(git merge-base

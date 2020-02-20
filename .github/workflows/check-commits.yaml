@@ -1,13 +1,14 @@
 on: { pull_request }
 
 jobs:
-  check:
+  check_history:
     runs-on: ubuntu-latest
+    container: { image: "quay.io/keith_maxwell/lumosql-build:fedora" }
     name: Check commits
     steps:
       - uses: actions/checkout@v2
       - name: Fetch all history so that later commands succeed
-        run: git fetch --prune --unshallow
+        run: git fetch --prune --unshallow || true
       - name: Fail if any commits have a subject line starting fixup!
         run:
           "! git log --pretty=format:%s%n origin/master..HEAD | grep -q ^fixup!"

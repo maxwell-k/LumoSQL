@@ -89,6 +89,7 @@
     "rollup-plugin-svelte": "^5.0.1",
     "rollup-plugin-terser": "^5.2.0",
     "sapper": "^0.27.0",
+    "start-server-and-test": "^1.10.8",
     "svelte": "^3.0.0"
   },
   "scripts": {
@@ -100,6 +101,7 @@
     "export": "sapper export",
     "format": "prettier --write '*.{js,json}' '**/*.{js,json,mjs,svelte}'",
     "gh-pages": "npm run build && npm run export && rm -rf gh-pages/* && cp -r __sapper__/export/* gh-pages/ && git -C gh-pages add .",
+    "integration-tests": "start-server-and-test 3000 cypress",
     "lint": "eslint 'src/**' 'cypress/**' 'test/**'",
     "start": "node __sapper__/build",
     "test": "npm run unit && npm run cypress",

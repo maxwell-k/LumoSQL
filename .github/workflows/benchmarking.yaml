@@ -7,6 +7,18 @@ jobs:
     name: Run checks on benchmarking code
     steps:
       - uses: actions/checkout@v2
+      - name: Persist the npm cache on GitHub but not in act
+        if: startsWith(job.container.network, 'github_network_')
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: npm-${{ hashFiles('**/package-lock.json') }}
+      - name: Persist the cached Cypress binary on GitHub but not in act
+        if: startsWith(job.container.network, 'github_network_')
+        uses: actions/cache@v1
+        with:
+          path: benchmarking/.ci/cypress_cache/
+          key: cypress-${{ hashFiles('**/package-lock.json') }}
       - name: Run checks on benchmarking code
         run: sh benchmarking/.ci/checks.sh
 #

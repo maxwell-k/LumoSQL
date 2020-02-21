@@ -11,4 +11,14 @@ npx c8 npm run unit &&
 # Check coverage level meets criteria
 npm run check-coverage &&
 # Remove coverage artefacts, as under act they are owned by root
-rm -r coverage
+rm -r coverage &&
+# Cache the cypress binary where act makes it available
+export CYPRESS_CACHE_FOLDER="${PWD}/.ci/cypress_cache" &&
+# Install the cypress binary without too much output
+CI=true npx cypress install &&
+# Verify the install
+npx cypress verify &&
+# Start server and run integration tests
+npm run integration-tests &&
+# Garbage collect the npm cache
+npm cache verify

@@ -152,15 +152,22 @@ npm run unit:debug
 
 ### Integration tests
 
-First run the development server:
+Check the `DISPLAY` environment variable is set then run the tests:
+
+```sh
+npx sapper build
+npm run integration-tests
+```
+
+<details>
+
+Behind the scenes that `integration-tests` script uses
+[start-server-and-test](https://www.npmjs.com/package/start-server-and-test) to
+run a server and the tests. To perform these steps separately and run the tests
+against the development server run the two commands below in separate terminals:
 
 ```sh
 npx sapper dev
-```
-
-Then run the integration tests:
-
-```sh
 npx cypress run
 ```
 
@@ -169,3 +176,5 @@ To debug integration tests try:
 ```sh
 npx cypress open
 ```
+
+</details>

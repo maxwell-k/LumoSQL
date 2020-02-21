@@ -3,7 +3,7 @@ on: { push }
 jobs:
   benchmarking:
     runs-on: ubuntu-latest
-    container: { image: "node:12.16.0-buster" }
+    container: { image: "cypress/base:12.16.0" }
     name: Run checks on benchmarking code
     steps:
       - uses: actions/checkout@v2

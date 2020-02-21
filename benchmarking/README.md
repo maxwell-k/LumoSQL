@@ -42,7 +42,7 @@ Then start with this directory, `benchmarking`, as the current directory:
 
 ```sh
 test -d "$DATA" || echo '$DATA is not set properly'
-npm run dev                      # check everything looks OK
+npx sapper dev                      # check everything looks OK
 test -d gh-pages || git worktree add gh-pages gh-pages
 npm run gh-pages
 cd gh-pages
@@ -155,13 +155,13 @@ npm run unit:debug
 First run the development server:
 
 ```sh
-npm run dev
+npx sapper dev
 ```
 
 Then run the integration tests:
 
 ```sh
-npm run cypress
+npx cypress run
 ```
 
 To debug integration tests try:

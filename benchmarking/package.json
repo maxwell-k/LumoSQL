@@ -94,18 +94,13 @@
   },
   "scripts": {
     "apidocs": "jsdoc -c .jsdoc.conf.json",
-    "build": "sapper build",
-    "coverage": "c8 npm run unit",
-    "coverage:check": "c8 check-coverage --functions 100 --lines 100 --branches 100 --statements 100 --per-file",
-    "cypress": "cypress run",
-    "dev": "sapper dev",
-    "export": "sapper export",
+    "check-coverage": "c8 check-coverage --functions 100 --lines 100 --branches 100 --statements 100 --per-file",
     "format": "prettier --write '*.{js,json}' '**/*.{js,json,mjs,svelte}'",
-    "gh-pages": "npm run build && npm run export && rm -rf gh-pages/* && cp -r __sapper__/export/* gh-pages/ && git -C gh-pages add .",
-    "integration-tests": "start-server-and-test 3000 cypress",
+    "gh-pages": "npx sapper build && npx sapper export && rm -rf gh-pages/* && cp -r __sapper__/export/* gh-pages/ && git -C gh-pages add .",
+    "integration-tests": "start-server-and-test 3000 'npx cypress run'",
     "lint": "eslint 'src/**' 'cypress/**' 'test/**'",
     "start": "node __sapper__/build",
-    "test": "npm run unit && npm run cypress",
+    "test": "npm run unit && npx cypress run",
     "unit": "node --experimental-modules $(npm bin)/mocha",
     "unit:debug": "node inspect --experimental-modules $(npm bin)/mocha"
   }

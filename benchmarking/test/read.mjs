@@ -11,7 +11,7 @@ import {
   set,
   times,
   version
-} from "../src/utils/html.mjs";
+} from "../src/utils/read.mjs";
 
 // Manually parsed results matching reports in test/data/1
 const path = "test/data/1/SQLite-3.30.1.html"; // path for expected report

@@ -18,8 +18,8 @@
     getVersions,
     median,
     unconvert
-  } from "../utils/json.mjs";
-  import { column, join } from "../utils/presentation.mjs";
+  } from "../utils/arrange.mjs";
+  import { column, join } from "../utils/format.mjs";
 
   const digits = 4;
   const runs = getRuns(dataset);

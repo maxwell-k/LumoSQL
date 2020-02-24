@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 import { strict as assert } from "assert";
 
-import { column, join } from "../src/utils/presentation.mjs";
+import { column, join } from "../src/utils/format.mjs";
 
 describe("column", function() {
   it("simple numbers", function() {

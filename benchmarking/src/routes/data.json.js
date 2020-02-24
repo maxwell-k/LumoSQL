@@ -1,5 +1,5 @@
 /* global process */
-import { convert, set } from "../utils/html.mjs";
+import { convert, set } from "../utils/read.mjs";
 
 const path = process.env.DATA || "test/data";
 

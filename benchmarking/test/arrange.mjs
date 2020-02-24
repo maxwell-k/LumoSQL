@@ -8,7 +8,7 @@ import {
   getVersions,
   median,
   unconvert
-} from "../src/utils/json.mjs";
+} from "../src/utils/arrange.mjs";
 
 describe("getRuns", function() {
   it("gets a single run name", function() {

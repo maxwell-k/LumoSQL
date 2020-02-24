@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 /* global cy, expect */
-import { getVersions } from "../../src/utils/json.mjs";
+import { getVersions } from "../../src/utils/arrange.mjs";
 
 describe("/", () => {
   beforeEach(() => {

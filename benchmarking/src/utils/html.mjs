@@ -1,3 +1,7 @@
+/**
+ * @file Reads the benchmarking data from disk
+ * @author Keith Maxwell
+ */
 import { promises as fsPromises } from "fs";
 import path from "path";
 

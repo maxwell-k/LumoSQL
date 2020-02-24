@@ -1,4 +1,9 @@
 /**
+ * @file Arranges data for presentation
+ * @author Keith Maxwell
+ */
+
+/**
  * Get the list of runs from a JSON dataset
  * @param runs {object} Data set to process
  */
@@ -39,13 +44,6 @@ export function getTests(runs) {
       })
     )
   );
-  // runs.forEach(([, versions]) =>
-  //   versions.forEach(([, tests]) => {
-  //     tests.forEach(([name]) => {
-  //       if (output.indexOf(name) === -1) output.push(name);
-  //     });
-  //   })
-  // );
   return output;
 }
 /**

@@ -1,4 +1,9 @@
 /**
+ * @file Formats information for display
+ * @author Keith Maxwell
+ */
+
+/**
  * Map a number to a letter
  * @param {integer} number The number to map
  */

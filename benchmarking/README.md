@@ -87,11 +87,64 @@ This benchmarking project:
 
 ## Tests
 
-### Dependencies
+The full test suite for the benchmarking code consists of:
 
-We use [Mocha](https://mochajs.org) for unit tests and
-[Cypress](https://cypress.io) for integration tests. The following commands
-should set up the dependencies on Fedora 31:
+1. unit tests and
+2. integration tests
+
+If all dependencies are installed, `npm test` will run both the unit and
+integration tests.
+
+The full test suite is run as a GitHub action using Linux containers. To run
+this locally use [act](https://github.com/nektos/act/):
+
+```sh
+act -j benchmarking     # or
+act -j benchmarking -b  # to use existing node_modules directory
+```
+
+<details>
+
+<summary>Versions</summary>
+
+These instructions were most recently tested with:
+
+```sh
+$ node --version
+v12.15.0
+$ npm --version
+6.13.4
+$ act --version
+act version 0.2.3
+```
+
+</details>
+
+### Unit tests
+
+We use [Mocha](https://mochajs.org) for unit tests:
+
+```sh
+npm run unit
+npm run unit:debug
+```
+
+Mocha's support for ES Modules is a
+[unreleased](https://github.com/mochajs/mocha/pull/4038). The version of mocha
+specified in `package.json` is an experimental release with support for ES
+Modules.
+
+### Integration tests
+
+We use [Cypress](https://cypress.io) for integration tests. If the Cypress
+dependencies are met and the `DISPLAY` environment variable is set then the
+commands below will run the integration tests.
+
+<details>
+
+<summary>Cypress dependencies</summary>
+
+The following commands should set up the dependencies on Fedora 31:
 
 ```sh
 sudo dnf upgrade --assumeyes &&
@@ -101,58 +154,7 @@ sudo npm install -g npm &&
 npm ci
 ```
 
-If all dependencies are installed, `npm test` will run both the unit and
-integration tests.
-
-Mocha's support for ES Modules is a
-[work in progress](https://github.com/mochajs/mocha/pull/4038). The version of
-mocha specified in `package.json` is an experimental release with support for ES
-Modules.
-
-<details>
-
-These instructions were tested in a
-[toolbox](https://github.com/containers/toolbox):
-
-```sh
-toolbox create --release 31 &&
-toolbox enter --release 31
-```
-
-It is necessary to set configure the display as an environment variable:
-
-```sh
-export DISPLAY=":0"
-```
-
-If you forget to configure the display, you will receive an errors starting
-with:
-
-```
-Your system is missing the dependency: Xvfb
-```
-
-These instructions were tested with:
-
-```sh
-$ node --version
-v12.15.0
-$ npm --version
-6.13.4
-```
-
 </details>
-
-### Unit tests
-
-```sh
-npm run unit
-npm run unit:debug
-```
-
-### Integration tests
-
-Check the `DISPLAY` environment variable is set then run the tests:
 
 ```sh
 npx sapper build

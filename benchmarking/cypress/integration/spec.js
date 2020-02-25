@@ -1,5 +1,7 @@
 /* eslint-env mocha */
 /* global cy, expect */
+import Ajv from "ajv";
+import yaml from "js-yaml";
 import { getVersions } from "../../src/utils/arrange.mjs";
 
 describe("/", () => {
@@ -10,9 +12,10 @@ describe("/", () => {
     cy.contains("h1", "LumoSQL Benchmarking");
   });
   it("links to /data.json", () => {
-    cy.contains("data extracted")
-      .get("a")
-      .should("have.attr", "href", "/data.json");
+    cy.get("[data-cy=data]").should("have.attr", "href", "/data.json");
+  });
+  it("links to /schema.json", () => {
+    cy.get("[data-cy=schema]").should("have.attr", "href", "/schema.json");
   });
 });
 describe("/data.json", () => {
@@ -22,10 +25,20 @@ describe("/data.json", () => {
       .its("content-type")
       .should("include", "application/json");
   });
-  it("should have two keys", () => {
+  it("validate against schema.yaml", function() {
+    let validate;
+
+    cy.readFile("schema.yaml", {
+      encoding: "utf8"
+    }).then(yaml_schema => {
+      const ajv = new Ajv();
+      const json = yaml.safeLoad(yaml_schema);
+      validate = ajv.compile(json);
+    });
+
     cy.request("/data.json")
       .its("body")
-      .should("have.length", 2);
+      .should(body => expect(validate(body)).to.be.true);
   });
   it("versions should be in the correct order", () => {
     const order = [
@@ -37,5 +50,13 @@ describe("/data.json", () => {
     cy.request("/data.json")
       .its("body")
       .then(runs => expect(getVersions(runs)).to.deep.equal(order));
+  });
+});
+describe("/schema.json", () => {
+  it("returns JSON", () => {
+    cy.request("/data.json")
+      .its("headers")
+      .its("content-type")
+      .should("include", "application/json");
   });
 });

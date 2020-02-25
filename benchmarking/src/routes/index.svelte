@@ -152,6 +152,22 @@
 </table>
 
 <details>
+  <summary>JSON</summary>
+  <ul>
+    <li>
+      <a href="/data.json" data-cy="data">data.json</a>
+      includes the data extracted from the HTML reports.
+    </li>
+    <li>
+      <a href="/schema.json" data-cy="schema">schema.json</a>
+      is a
+      <a href="https://json-schema.org/">JSON Schema</a>
+      for that file.
+    </li>
+  </ul>
+</details>
+
+<details>
   <summary>Key</summary>
   <h2>Versions</h2>
   <dl>
@@ -169,11 +185,6 @@
     {/each}
   </dl>
 </details>
-
-<p>
-  <a href="/data.json">data.json</a>
-  includes the data extracted from the HTML reports.
-</p>
 
 <details>
   <summary>All data in one table</summary>

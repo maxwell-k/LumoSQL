@@ -77,7 +77,7 @@ export async function run(directory) {
 
 /**
  * Parse a set of runs from a directory
- * @param root {string} A path to a directory containing reports
+ * @param root {string} A path to a directory containing reports and metadata
  */
 export async function runs(root) {
   const entries = await fsPromises.readdir(root, { withFileTypes: "true" });
@@ -131,4 +131,16 @@ export function compare(a, b) {
   if (a_array.length == b_array.length) return 0;
   else if (a_array.length < b_array.length) return -1;
   else return 1;
+}
+
+/**
+ * Retrieve the metadata
+ * @param root {string} A path to a directory containing directories of reports
+ */
+export async function metadata(root) {
+  const file = path.join(root, "metadata.json");
+  const data = await fsPromises.readFile(file, { encoding: "utf8" });
+  // https://github.com/bcoe/c8/issues/135 for explanation of ignore below
+  /* c8 ignore next */
+  return JSON.parse(data);
 }

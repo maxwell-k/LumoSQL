@@ -9,7 +9,9 @@ describe("/", () => {
     cy.visit("/");
   });
   it("has the correct <h1>", () => {
-    cy.contains("h1", "LumoSQL Benchmarking");
+    cy.get("h1")
+      .invoke("text")
+      .should("eq", "JavaScript Test Data");
   });
   it("links to /data.json", () => {
     cy.get("[data-cy=data]").should("have.attr", "href", "/data.json");

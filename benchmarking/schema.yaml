@@ -2,7 +2,17 @@ $schema: "http://json-schema.org/draft-07/schema#"
 $id: https://lumosql.github.io/LumoSQL/schema.json
 type: object
 required: [runs]
+additionalProperties: false
 properties:
+  metadata:
+    type: object
+    additionalProperties: false
+    properties:
+      title:
+        type: string
+        examples:
+          - Draft LumoSQL Benchmarking
+          - LumoSQL Benchmarking Version 1
   runs:
     type: array
     title: runs

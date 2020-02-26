@@ -4,7 +4,7 @@
  */
 
 /**
- * Get the list of runs from a JSON dataset
+ * Get a sorted array of run names from a JSON dataset
  * @param dataset {object} Data set to process
  */
 export function getRunNames(dataset) {

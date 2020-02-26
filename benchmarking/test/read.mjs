@@ -6,6 +6,7 @@ import { promises as fsPromises } from "fs";
 import {
   compare,
   mapsToArrays,
+  metadata,
   report,
   run,
   runs,
@@ -203,5 +204,12 @@ describe("compare", function() {
     const copy = versions.slice();
     copy.sort(compare);
     assert.deepEqual(copy, versions);
+  });
+});
+
+describe("metadata", function() {
+  it("simple string", async function() {
+    const result = await metadata("test/data/");
+    assert.deepEqual(result.title, "JavaScript Test Data");
   });
 });

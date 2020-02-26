@@ -7,9 +7,6 @@
 </script>
 
 <script>
-  /* global process */
-  const title = process.env.TITLE || "Draft LumoSQL Benchmarking";
-
   export let dataset;
 
   import {
@@ -94,10 +91,10 @@
 </style>
 
 <svelte:head>
-  <title>{title}</title>
+  <title>{dataset.metadata.title}</title>
 </svelte:head>
 
-<h1>{title}</h1>
+<h1>{dataset.metadata.title}</h1>
 
 <p class="intro">
   Median across {runs.length} run{runs.length - 1 ? 's' : ''} in seconds.
@@ -189,7 +186,7 @@
 <details>
   <summary>All data in one table</summary>
   <div>
-    <h1>Underlying data in one table</h1>
+    <h2>Underlying data in one table</h2>
 
     <p>
       {runs.length} run{runs.length - 1 ? 's' : ''}: {join(runs)}, measured in

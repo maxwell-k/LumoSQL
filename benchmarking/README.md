@@ -9,7 +9,7 @@
    `make` command
 3. Set the `DATA` environment variable to where you want to store the
    benchmarking data e.g. `export DATA=/var/srv/data`
-4. Start the benchmarking, the shell script below will produce three runs:
+4. Start the benchmarking, the shell script below will produce five runs:
 
    ```sh
    test -d "$DATA" || echo '$DATA is not set properly'
@@ -24,6 +24,8 @@
    done &&
    date
    ```
+
+5. Add metadata such as a title to `metadata.json` in the data directory.
 
 ### Summarise and publish the benchmarking data
 
@@ -51,9 +53,6 @@ git commit
 git push
 ```
 
-Exporting the `TITLE` environment variable changes the title and heading text in
-the HTML.
-
 Note that if data is left set then the tests on the JavaScript code will fail â€”
 `unset DATA`.
 
@@ -61,7 +60,7 @@ Note that if data is left set then the tests on the JavaScript code will fail â€
 
 ## Terminology
 
-1. Several runs make up a data **set**
+1. Several runs and corresponding metadata make up a data **set**
 2. A **run** includes separate reports on different versions, it can be
    represented as a directory
 3. A **report** shows the results of different tests for a single version, it

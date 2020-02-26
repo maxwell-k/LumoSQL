@@ -26,6 +26,13 @@ describe("/data.json", () => {
       .should("include", "application/json");
   });
   it("validate against schema.yaml", function() {
+    /*
+     * For more helpful debug messages, use:
+     * curl -O http://localhost:3000/data.json
+     * curl -O http://localhost:3000/schema.json
+     * npx ajv-cli validate -s schema.json -d data.json
+     */
+
     let validate;
 
     cy.readFile("schema.yaml", {

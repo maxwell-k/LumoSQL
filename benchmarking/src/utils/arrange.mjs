@@ -5,12 +5,12 @@
 
 /**
  * Get the list of runs from a JSON dataset
- * @param runs {object} Data set to process
+ * @param dataset {object} Data set to process
  */
-export function getRunNames(runs) {
+export function getRunNames(dataset) {
   const digits = /^[0-9]+$/;
   const output = [];
-  runs.forEach(([run]) => {
+  dataset.runs.forEach(([run]) => {
     if (output.indexOf(run) === -1) output.push(run);
   });
   return output.sort((a, b) => {
@@ -20,11 +20,11 @@ export function getRunNames(runs) {
 }
 /**
  * Get the list of the versions from a JSON dataset
- * @param runs {object} Data set to process
+ * @param dataset {object} Data set to process
  */
-export function getVersions(runs) {
+export function getVersions(dataset) {
   const output = [];
-  runs.forEach(([, versions]) =>
+  dataset.runs.forEach(([, versions]) =>
     versions.forEach(([version]) => {
       if (output.indexOf(version) === -1) output.push(version);
     })
@@ -33,11 +33,11 @@ export function getVersions(runs) {
 }
 /**
  * Get an array of test names JSON dataset
- * @param runs {object} Data set to process
+ * @param dataset {object} Data set to process
  */
-export function getTestNames(runs) {
+export function getTestNames(dataset) {
   const output = [];
-  runs.forEach(([, versions]) =>
+  dataset.runs.forEach(([, versions]) =>
     versions.forEach(([, tests]) =>
       tests.forEach(([name]) => {
         if (output.indexOf(name) === -1) output.push(name);

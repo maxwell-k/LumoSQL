@@ -12,24 +12,28 @@ import {
 
 describe("getRunNames", function() {
   it("gets a single run name", function() {
-    assert.deepEqual(getRunNames([["A", []]]), ["A"]);
+    assert.deepEqual(getRunNames({ runs: [["A", []]] }), ["A"]);
   });
   it("gets multiple run names", function() {
     assert.deepEqual(
-      getRunNames([
-        ["A", []],
-        ["B", []]
-      ]),
+      getRunNames({
+        runs: [
+          ["A", []],
+          ["B", []]
+        ]
+      }),
       ["A", "B"]
     );
   });
   it("gets multiple run names in numeric order", function() {
     assert.deepEqual(
-      getRunNames([
-        ["2", []],
-        ["1", []],
-        ["10", []]
-      ]),
+      getRunNames({
+        runs: [
+          ["2", []],
+          ["1", []],
+          ["10", []]
+        ]
+      }),
       ["1", "2", "10"]
     );
   });
@@ -37,28 +41,34 @@ describe("getRunNames", function() {
 
 describe("getVersions", function() {
   it("gets a single version name", function() {
-    assert.deepEqual(getVersions([["run1", [["version1", []]]]]), ["version1"]);
+    assert.deepEqual(getVersions({ runs: [["run1", [["version1", []]]]] }), [
+      "version1"
+    ]);
   });
   it("works across multiple runs", function() {
     assert.deepEqual(
-      getVersions([
-        ["run1", [["version1", []]]],
-        ["run2", [["version1", []]]]
-      ]),
+      getVersions({
+        runs: [
+          ["run1", [["version1", []]]],
+          ["run2", [["version1", []]]]
+        ]
+      }),
       ["version1"]
     );
   });
   it("gets multiple version names", function() {
     assert.deepEqual(
-      getVersions([
-        [
-          "run1",
+      getVersions({
+        runs: [
           [
-            ["version1", []],
-            ["version2", []]
+            "run1",
+            [
+              ["version1", []],
+              ["version2", []]
+            ]
           ]
         ]
-      ]),
+      }),
       ["version1", "version2"]
     );
   });
@@ -66,30 +76,34 @@ describe("getVersions", function() {
 describe("getTestNames", function() {
   it("gets a single test name", function() {
     assert.deepEqual(
-      getTestNames([
-        ["run1", [["version1", [["test1", 1]]]]],
-        ["run2", [["version1", [["test1", 1]]]]]
-      ]),
+      getTestNames({
+        runs: [
+          ["run1", [["version1", [["test1", 1]]]]],
+          ["run2", [["version1", [["test1", 1]]]]]
+        ]
+      }),
       ["test1"]
     );
   });
   it("gets multiple test names", function() {
     assert.deepEqual(
-      getTestNames([
-        [
-          "run1",
+      getTestNames({
+        runs: [
           [
+            "run1",
             [
-              "version1",
               [
-                ["test1", 1],
-                ["test2", 2]
+                "version1",
+                [
+                  ["test1", 1],
+                  ["test2", 2]
+                ]
               ]
             ]
-          ]
-        ],
-        ["run2", [["version1", [["test1", 1]]]]]
-      ]),
+          ],
+          ["run2", [["version1", [["test1", 1]]]]]
+        ]
+      }),
       ["test1", "test2"]
     );
   });

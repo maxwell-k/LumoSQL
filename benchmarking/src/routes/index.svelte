@@ -25,7 +25,7 @@
   const runs = getRunNames(dataset);
   const versions = getVersions(dataset);
   const tests = getTestNames(dataset);
-  const nested = arraysToMaps(dataset);
+  const nested = arraysToMaps(dataset.runs);
 </script>
 
 <style>

@@ -1,40 +1,44 @@
 $schema: "http://json-schema.org/draft-07/schema#"
 $id: https://lumosql.github.io/LumoSQL/schema.json
-type: array
-title: runs
-desciption: corresponds to the root directory, the top level
-items:
-  type: array
-  items:
-    - type: string
-      title: run name
-      $comment: corresponds to a git clone
-    - type: array
+type: object
+required: [runs]
+properties:
+  runs:
+    type: array
+    title: runs
+    desciption: corresponds to the root directory, the top level
+    items:
+      type: array
       items:
+        - type: string
+          title: run name
+          $comment: corresponds to a git clone
         - type: array
           items:
-            - type: string
-              title: version
-              $comment: corresponds to HTML file
-              examples:
-                - 3.7.17 8c3edfe29904c2374adcc8e36f56f184e05651a9 LMDB_0.9.16
-                  5d67c6aed16366ddcfac77eb6a166928a257ab7b
-                - 3.7.17 8c3edfe29904c2374adcc8e36f56f184e05651a9
-                  LMDB_0.9.9  7449ca604ca732ad262cfd77da403968cdb9157f
-                - 3.30.1 2019-10-10 20:19:45
-                  18db032d058f1436ce3dea84081f4ee5a0f2259ad97301d43c426bc7f3df1b0b
-                - 3.7.17 2013-05-20 00:56:22
-                  118a3b35693b134d56ebd780123b7fd6f1497668
             - type: array
               items:
+                - type: string
+                  title: version
+                  $comment: corresponds to HTML file
+                  examples:
+                    - 3.7.17 8c3edfe29904c2374adcc8e36f56f184e05651a9
+                      LMDB_0.9.16 5d67c6aed16366ddcfac77eb6a166928a257ab7b
+                    - 3.7.17 8c3edfe29904c2374adcc8e36f56f184e05651a9
+                      LMDB_0.9.9  7449ca604ca732ad262cfd77da403968cdb9157f
+                    - 3.7.17 2013-05-20 00:56:22
+                      118a3b35693b134d56ebd780123b7fd6f1497668
+                    - 3.30.1 2019-10-10 20:19:45
+                      18db032d058f1436ce3dea84081f4ee5a0f2259ad97301d43c426bc7f3df1b0b
                 - type: array
                   items:
-                    - type: string
-                      title: test name
-                      $comment: corresponds to a heading
-                      examples:
-                        - "Test 1: 1000 INSERTs"
-                        - "Test 2: 25000 INSERTs in a transaction"
-                    - type: number
-                      title: time in seconds
-                      examples: [10.548, 0.161]
+                    - type: array
+                      items:
+                        - type: string
+                          title: test name
+                          $comment: corresponds to a heading
+                          examples:
+                            - "Test 1: 1000 INSERTs"
+                            - "Test 2: 25000 INSERTs in a transaction"
+                        - type: number
+                          title: time in seconds
+                          examples: [10.548, 0.161]

@@ -7,7 +7,7 @@
  * Get the list of runs from a JSON dataset
  * @param runs {object} Data set to process
  */
-export function getRuns(runs) {
+export function getRunNames(runs) {
   const digits = /^[0-9]+$/;
   const output = [];
   runs.forEach(([run]) => {
@@ -32,10 +32,10 @@ export function getVersions(runs) {
   return output;
 }
 /**
- * Get the list of the tests from a JSON dataset
+ * Get an array of test names JSON dataset
  * @param runs {object} Data set to process
  */
-export function getTests(runs) {
+export function getTestNames(runs) {
   const output = [];
   runs.forEach(([, versions]) =>
     versions.forEach(([, tests]) =>
@@ -50,10 +50,10 @@ export function getTests(runs) {
  * Recursively converts JSON back to nested maps
  * @param input {array} To convert
  */
-export function unconvert(input) {
+export function arraysToMaps(input) {
   const result = new Map();
   input.forEach(([key, value]) => {
-    if (value instanceof Array) result.set(key, unconvert(value));
+    if (value instanceof Array) result.set(key, arraysToMaps(value));
     else result.set(key, value);
   });
   return result;

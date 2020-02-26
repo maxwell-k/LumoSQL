@@ -13,19 +13,19 @@
   export let dataset;
 
   import {
-    getRuns,
-    getTests,
+    arraysToMaps,
+    getRunNames,
+    getTestNames,
     getVersions,
-    median,
-    unconvert
+    median
   } from "../utils/arrange.mjs";
   import { column, join } from "../utils/format.mjs";
 
   const digits = 4;
-  const runs = getRuns(dataset);
+  const runs = getRunNames(dataset);
   const versions = getVersions(dataset);
-  const tests = getTests(dataset);
-  const nested = unconvert(dataset);
+  const tests = getTestNames(dataset);
+  const nested = arraysToMaps(dataset);
 </script>
 
 <style>

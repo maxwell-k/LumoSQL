@@ -79,26 +79,26 @@ export async function run(directory) {
  * Parse a set of runs from a directory
  * @param root {string} A path to a directory containing reports
  */
-export async function set(root) {
+export async function runs(root) {
   const entries = await fsPromises.readdir(root, { withFileTypes: "true" });
   const directories = entries.filter(i => i.isDirectory()).map(i => i.name);
-  const runs = new Map();
+  const output = new Map();
   for (const directory of directories) {
     const i = await run(path.join(root, directory));
-    runs.set(directory, i);
+    output.set(directory, i);
   }
   // https://github.com/bcoe/c8/issues/135 for explanation of ignore below
   /* c8 ignore next */
-  return runs;
+  return output;
 }
 /**
  * Recursively converts a map to objects suitable for JSON encoding
- * @param input {Map} To convert
+ * @param map {Map} To convert
  */
-export function convert(input) {
+export function mapsToArrays(map) {
   const result = [];
-  input.forEach((value, key) => {
-    if (value instanceof Map) result.push([key, convert(value)]);
+  map.forEach((value, key) => {
+    if (value instanceof Map) result.push([key, mapsToArrays(value)]);
     else result.push([key, value]);
   });
   return result;

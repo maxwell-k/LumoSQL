@@ -1,10 +1,10 @@
 /* global process */
-import { convert, set } from "../utils/read.mjs";
+import { mapsToArrays, runs } from "../utils/read.mjs";
 
 const path = process.env.DATA || "test/data";
 
 export async function get(req, res) {
-  const data = await set(path);
+  const data = await runs(path);
   res.setHeader("Content-Type", "application/json");
-  res.end(JSON.stringify(convert(data)));
+  res.end(JSON.stringify(mapsToArrays(data)));
 }

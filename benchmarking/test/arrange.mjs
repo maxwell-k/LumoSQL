@@ -3,20 +3,20 @@
 import { strict as assert } from "assert";
 
 import {
-  getRuns,
-  getTests,
+  arraysToMaps,
+  getRunNames,
+  getTestNames,
   getVersions,
-  median,
-  unconvert
+  median
 } from "../src/utils/arrange.mjs";
 
-describe("getRuns", function() {
+describe("getRunNames", function() {
   it("gets a single run name", function() {
-    assert.deepEqual(getRuns([["A", []]]), ["A"]);
+    assert.deepEqual(getRunNames([["A", []]]), ["A"]);
   });
   it("gets multiple run names", function() {
     assert.deepEqual(
-      getRuns([
+      getRunNames([
         ["A", []],
         ["B", []]
       ]),
@@ -25,7 +25,7 @@ describe("getRuns", function() {
   });
   it("gets multiple run names in numeric order", function() {
     assert.deepEqual(
-      getRuns([
+      getRunNames([
         ["2", []],
         ["1", []],
         ["10", []]
@@ -63,10 +63,10 @@ describe("getVersions", function() {
     );
   });
 });
-describe("getTests", function() {
+describe("getTestNames", function() {
   it("gets a single test name", function() {
     assert.deepEqual(
-      getTests([
+      getTestNames([
         ["run1", [["version1", [["test1", 1]]]]],
         ["run2", [["version1", [["test1", 1]]]]]
       ]),
@@ -75,7 +75,7 @@ describe("getTests", function() {
   });
   it("gets multiple test names", function() {
     assert.deepEqual(
-      getTests([
+      getTestNames([
         [
           "run1",
           [
@@ -95,13 +95,13 @@ describe("getTests", function() {
   });
 });
 
-describe("unconvert", function() {
+describe("arraysToMaps", function() {
   it("a simple array to a map", function() {
-    const result = unconvert([["A", 1]]);
+    const result = arraysToMaps([["A", 1]]);
     assert.deepEqual(result, new Map([["A", 1]]));
   });
   it("a nested array to a map", function() {
-    const result = unconvert([
+    const result = arraysToMaps([
       ["A", 1],
       ["B", [["C", 2]]]
     ]);

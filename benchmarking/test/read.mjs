@@ -5,10 +5,10 @@ import { promises as fsPromises } from "fs";
 
 import {
   compare,
-  convert,
+  mapsToArrays,
   report,
   run,
-  set,
+  runs,
   times,
   version
 } from "../src/utils/read.mjs";
@@ -120,11 +120,11 @@ describe("run", function() {
   });
 });
 
-describe("set", function() {
+describe("runs", function() {
   let result;
 
   before("Parse test/data/", async function() {
-    result = await set("test/data/");
+    result = await runs("test/data/");
   });
 
   it("Finds one run", async function() {
@@ -143,13 +143,13 @@ describe("set", function() {
   });
 });
 
-describe("convert", function() {
+describe("mapsToArrays", function() {
   it("a simple map to an array", function() {
-    const result = convert(new Map([["A", 1]]));
+    const result = mapsToArrays(new Map([["A", 1]]));
     assert.deepEqual(result, [["A", 1]]);
   });
   it("a nested map to an object", function() {
-    const result = convert(
+    const result = mapsToArrays(
       new Map([
         ["A", 1],
         ["B", new Map([["C", 2]])]

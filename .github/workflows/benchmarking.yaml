@@ -20,7 +20,7 @@ jobs:
           path: benchmarking/.ci/cypress_cache/
           key: cypress-${{ hashFiles('**/package-lock.json') }}
       - name: Run checks on benchmarking code
-        run: sh benchmarking/.ci/checks.sh
+        run: cd benchmarking && sh .ci/checks.sh
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.

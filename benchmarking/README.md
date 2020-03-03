@@ -94,8 +94,17 @@ The full test suite for the benchmarking code consists of:
 If all dependencies are installed, `npm test` will run both the unit and
 integration tests.
 
-The full test suite is run as a GitHub action using Linux containers. To run
-this locally use [act](https://github.com/nektos/act/):
+To run the test suite using `podman` or `docker` use:
+
+```sh
+cd benchmarking &&        # start in the directory that contains this README
+make check                # or
+make ENGINE=docker check  # can leave files owned by root
+```
+
+The full test suite is run as a workflow via GitHub actions using Linux
+containers. To run the workflow locally use
+[act](https://github.com/nektos/act/):
 
 ```sh
 act -j benchmarking     # or
@@ -115,6 +124,8 @@ $ npm --version
 6.13.4
 $ act --version
 act version 0.2.3
+$ podman --version
+podman version 1.6.1
 ```
 
 </details>

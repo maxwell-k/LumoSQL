@@ -5,6 +5,8 @@ import { promises as fsPromises } from "fs";
 
 import {
   compare,
+  directories,
+  files,
   mapsToArrays,
   metadata,
   report,
@@ -118,6 +120,25 @@ describe("run", function() {
 
   it("Parses version numbers matching those found manually", function() {
     assert.deepEqual(new Set(Array.from(result.keys())), new Set(versions));
+  });
+});
+
+describe("files", function() {
+  it("Returns paths only", async function() {
+    const result = await files("static/test/1", false);
+    assert.deepEqual(result, [
+      "static/test/1/LMDB_0.9.16.html",
+      "static/test/1/LMDB_0.9.9.html",
+      "static/test/1/SQLite-3.30.1.html",
+      "static/test/1/SQLite-3.7.17.html"
+    ]);
+  });
+});
+
+describe("directories", function() {
+  it("Returns paths only", async function() {
+    const result = await directories("static/test", false);
+    assert.deepEqual(result, ["1", "2"]);
   });
 });
 

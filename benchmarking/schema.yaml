@@ -52,3 +52,10 @@ properties:
                         - type: number
                           title: time in seconds
                           examples: [10.548, 0.161]
+  paths:
+    type: array
+    title: runs
+    desciption: list of paths containing raw data
+    items:
+      type: string
+      examples: ["test/2/SQLite-3.7.17.html", "test/1/LMDB_0.9.16.html"]

@@ -23,6 +23,7 @@
   const versions = getVersions(dataset);
   const tests = getTestNames(dataset);
   const nested = arraysToMaps(dataset.runs);
+  const paths = dataset.paths;
 </script>
 
 <style>
@@ -181,6 +182,17 @@
       <dd>{test}</dd>
     {/each}
   </dl>
+</details>
+
+<details>
+  <summary>Raw data</summary>
+  <ul>
+    {#each paths as path}
+      <li>
+        <a href={path}>{path}</a>
+      </li>
+    {/each}
+  </ul>
 </details>
 
 <details>

@@ -32,16 +32,16 @@ export function version(html) {
  */
 export function times(html) {
   const $ = typeof html === "string" ? cheerio.load(html) : html;
-  const result = [];
+  const output = [];
   $("h2").each(function(index, element) {
     const h2 = $(element);
     const td = h2
       .nextAll("table")
       .first()
       .find("td[align=right]");
-    result[index] = [h2.text(), Number.parseFloat(td.text())];
+    output[index] = [h2.text(), Number.parseFloat(td.text())];
   });
-  return result;
+  return output;
 }
 
 /**
@@ -58,14 +58,25 @@ export async function report(file) {
 }
 
 /**
+ * List the relevant paths
+ * @param directory {string} A path to a directory containing reports
+ */
+export async function files(directory) {
+  const filenames = await fsPromises.readdir(directory);
+  const output = filenames
+    .filter(i => i.endsWith("html"))
+    .map(i => path.join(directory, i));
+  // https://github.com/bcoe/c8/issues/135 for explanation of ignore below
+  /* c8 ignore next */
+  return output;
+}
+
+/**
  * Parse a run from a directory
  * @param directory {string} A path to a directory containing reports
  */
 export async function run(directory) {
-  const filenames = await fsPromises.readdir(directory);
-  const paths = filenames
-    .filter(i => i.endsWith("html"))
-    .map(i => path.join(directory, i));
+  const paths = await files(directory);
   const reports = await Promise.all(paths.map(report));
   reports.sort(compare);
   let output = new Map();
@@ -76,14 +87,24 @@ export async function run(directory) {
 }
 
 /**
+ * List the directories
+ * @param root {string} A path to a directory containing reports and metadata
+ */
+export async function directories(root) {
+  const entries = await fsPromises.readdir(root, { withFileTypes: "true" });
+  const output = entries.filter(i => i.isDirectory()).map(i => i.name);
+  // https://github.com/bcoe/c8/issues/135 for explanation of ignore below
+  /* c8 ignore next */
+  return output;
+}
+/**
  * Parse a set of runs from a directory
  * @param root {string} A path to a directory containing reports and metadata
  */
 export async function runs(root) {
-  const entries = await fsPromises.readdir(root, { withFileTypes: "true" });
-  const directories = entries.filter(i => i.isDirectory()).map(i => i.name);
+  const paths = await directories(root);
   const output = new Map();
-  for (const directory of directories) {
+  for (const directory of paths) {
     const i = await run(path.join(root, directory));
     output.set(directory, i);
   }
@@ -96,12 +117,12 @@ export async function runs(root) {
  * @param map {Map} To convert
  */
 export function mapsToArrays(map) {
-  const result = [];
+  const output = [];
   map.forEach((value, key) => {
-    if (value instanceof Map) result.push([key, mapsToArrays(value)]);
-    else result.push([key, value]);
+    if (value instanceof Map) output.push([key, mapsToArrays(value)]);
+    else output.push([key, value]);
   });
-  return result;
+  return output;
 }
 /**
  * Comparison function to be used on LumoSQL version numbers

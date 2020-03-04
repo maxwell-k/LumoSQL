@@ -7,10 +7,12 @@ import * as sapper from "@sapper/server";
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === "development";
 
+import { prefix } from "./config.js";
+
 polka()
   .use(
     compression({ threshold: 0 }),
-    sirv("static", { dev }),
+    sirv(prefix, { dev }),
     sapper.middleware()
   )
   .listen(PORT, err => {

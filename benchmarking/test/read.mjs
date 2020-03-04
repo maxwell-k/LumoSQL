@@ -14,8 +14,8 @@ import {
   version
 } from "../src/utils/read.mjs";
 
-// Manually parsed results matching reports in test/data/1
-const path = "test/data/1/SQLite-3.30.1.html"; // path for expected report
+// Manually parsed results matching reports in static/test/1
+const path = "static/test/1/SQLite-3.30.1.html"; // path for expected report
 const expected = new Map();
 expected.set(
   "3.30.1 2019-10-10 20:19:45 18db032d058f1436ce3dea84081f4ee5a0f2259ad97301d43c426bc7f3df1b0b",
@@ -101,8 +101,8 @@ describe("report", function() {
 describe("run", function() {
   let result;
 
-  before("Parse test/data/1", async function() {
-    result = await run("test/data/1");
+  before("Parse static/test/1", async function() {
+    result = await run("static/test/1");
   });
 
   it("Finds four reports", function() {
@@ -124,8 +124,8 @@ describe("run", function() {
 describe("runs", function() {
   let result;
 
-  before("Parse test/data/", async function() {
-    result = await runs("test/data/");
+  before("Parse static/test/", async function() {
+    result = await runs("static/test/");
   });
 
   it("Finds one run", async function() {
@@ -209,7 +209,7 @@ describe("compare", function() {
 
 describe("metadata", function() {
   it("simple string", async function() {
-    const result = await metadata("test/data/");
+    const result = await metadata("static/test/");
     assert.deepEqual(result.title, "JavaScript Test Data");
   });
 });

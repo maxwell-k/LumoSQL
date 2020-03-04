@@ -1,7 +1,7 @@
 /* global process */
 import { mapsToArrays, metadata, runs } from "../utils/read.mjs";
 
-const path = process.env.DATA || "test/data";
+const path = process.env.DATA || "static/test";
 
 export async function get(req, res) {
   const data = {};

@@ -14,7 +14,7 @@
     getRunNames,
     getTestNames,
     getVersions,
-    median
+    medians
   } from "../utils/arrange.mjs";
   import { column } from "../utils/format.mjs";
   import All from "./_components/All.svelte";
@@ -23,7 +23,7 @@
   const runs = getRunNames(dataset);
   const versions = getVersions(dataset);
   const tests = getTestNames(dataset);
-  const nested = arraysToMaps(dataset.runs);
+  const table = medians(arraysToMaps(dataset.runs));
   const paths = dataset.paths;
 </script>
 
@@ -96,10 +96,10 @@
 
         {#each tests as test}
           <td>
-            {median(runs.map(run => nested
-                  .get(run)
-                  .get(version)
-                  .get(test))).toFixed(digits)}
+            {table
+              .get(version)
+              .get(test)
+              .toFixed(digits)}
           </td>
         {/each}
 

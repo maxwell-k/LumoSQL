@@ -69,3 +69,31 @@ export function median(numbers) {
   if (length % 2 == 1) return numbers[(length - 1) / 2];
   else return (numbers[length / 2] + numbers[length / 2 - 1]) / 2;
 }
+/**
+ * Medians for a dataset
+ *
+ * @param {Map} runs A map of maps of maps of numbers
+ * @return {Map} A map of maps of medians
+ */
+export function medians(runs) {
+  const arrays = new Map();
+  for (const runValue of runs.values()) {
+    for (const [version, versionValue] of runValue) {
+      if (!arrays.has(version)) arrays.set(version, new Map());
+      for (const [test, testValue] of versionValue) {
+        if (!arrays.get(version).has(test)) arrays.get(version).set(test, []);
+        arrays
+          .get(version)
+          .get(test)
+          .push(testValue);
+      }
+    }
+  }
+  const output = new Map(arrays);
+  for (const [version, versionValue] of arrays) {
+    for (const [test, values] of versionValue) {
+      output.get(version).set(test, median(values));
+    }
+  }
+  return output;
+}

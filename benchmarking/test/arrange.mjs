@@ -7,7 +7,8 @@ import {
   getRunNames,
   getTestNames,
   getVersions,
-  median
+  median,
+  medians
 } from "../src/utils/arrange.mjs";
 
 describe("getRunNames", function() {
@@ -135,5 +136,17 @@ describe("median", function() {
   });
   it("average of two", function() {
     assert.deepEqual(median([1, 2]), 1.5);
+  });
+});
+
+describe("medians", function() {
+  it("calculate medians across runs", function() {
+    const input = arraysToMaps([
+      ["run1", [["version1", [["test1", 1]]]]],
+      ["run2", [["version1", [["test1", 2]]]]],
+      ["run3", [["version1", [["test1", 3]]]]]
+    ]);
+    const expected = arraysToMaps([["version1", [["test1", 2]]]]);
+    assert.deepEqual(medians(input), expected);
   });
 });

@@ -1,7 +1,7 @@
 ENGINE = podman
 IMAGE = cypress/base:12.16.0  # should match ../.github/workflows/benchmarking.yaml
 
-.PHONY: check copy
+.PHONY: check copy clean
 
 check:
 	$(ENGINE) run -v "$(PWD):/srv:Z" -w /srv $(IMAGE) .ci/checks.sh
@@ -16,3 +16,6 @@ copy:
 	while read i; do test -d "$$i" || mkdir "$$i"; done
 	find "$(SRC)" -mindepth 2 -maxdepth 2 -name '*.html' | \
 	while read i; do cp "$$i" "static/data/$(NAME)/$${i##$(SRC)/}"; done
+
+clean:
+	rm -rf __sapper__ coverage src/node_modules cypress/screenshots

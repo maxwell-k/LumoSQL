@@ -7,12 +7,12 @@ import * as sapper from "@sapper/server";
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === "development";
 
-import { prefix } from "./config.js";
+import { PREFIX, shouldAddCharset } from "./config.js";
 
 polka()
   .use(
     compression({ threshold: 0 }),
-    sirv(prefix, {
+    sirv(PREFIX, {
       dev,
       setHeaders: (res, pathname) => {
         /*
@@ -39,10 +39,7 @@ polka()
          * At the time of writing this is only available in a pre-release like
          * https://www.npmjs.com/package/sirv/v/1.0.0-next.2
          */
-        if (
-          (pathname.startsWith("/test/") || pathname.startsWith("/data/")) &&
-          pathname.endsWith(".html")
-        ) {
+        if (shouldAddCharset(pathname)) {
           res.setHeader("Content-Type", "text/html; charset=UTF-8");
         }
       }

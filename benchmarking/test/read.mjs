@@ -16,8 +16,8 @@ import {
   version
 } from "../src/utils/read.mjs";
 
-// Manually parsed results matching reports in static/test/1
-const path = "static/test/1/SQLite-3.30.1.html"; // path for expected report
+// Manually parsed results matching reports in static/test/v1/1
+const path = "static/test/v1/1/SQLite-3.30.1.html"; // path for expected report
 const expected = new Map();
 expected.set(
   "3.30.1 2019-10-10 20:19:45 18db032d058f1436ce3dea84081f4ee5a0f2259ad97301d43c426bc7f3df1b0b",
@@ -103,8 +103,8 @@ describe("report", function() {
 describe("run", function() {
   let result;
 
-  before("Parse static/test/1", async function() {
-    result = await run("static/test/1");
+  before("Parse static/test/v1/1", async function() {
+    result = await run("static/test/v1/1");
   });
 
   it("Finds four reports", function() {
@@ -125,19 +125,19 @@ describe("run", function() {
 
 describe("files", function() {
   it("Returns paths only", async function() {
-    const result = await files("static/test/1", false);
+    const result = await files("static/test/v1/1", false);
     assert.deepEqual(result, [
-      "static/test/1/LMDB_0.9.16.html",
-      "static/test/1/LMDB_0.9.9.html",
-      "static/test/1/SQLite-3.30.1.html",
-      "static/test/1/SQLite-3.7.17.html"
+      "static/test/v1/1/LMDB_0.9.16.html",
+      "static/test/v1/1/LMDB_0.9.9.html",
+      "static/test/v1/1/SQLite-3.30.1.html",
+      "static/test/v1/1/SQLite-3.7.17.html"
     ]);
   });
 });
 
 describe("directories", function() {
   it("Returns paths only", async function() {
-    const result = await directories("static/test", false);
+    const result = await directories("static/test/v1", false);
     assert.deepEqual(result, ["1", "2"]);
   });
 });
@@ -145,8 +145,8 @@ describe("directories", function() {
 describe("runs", function() {
   let result;
 
-  before("Parse static/test/", async function() {
-    result = await runs("static/test/");
+  before("Parse static/test/v1", async function() {
+    result = await runs("static/test/v1/");
   });
 
   it("Finds one run", async function() {
@@ -230,7 +230,7 @@ describe("compare", function() {
 
 describe("metadata", function() {
   it("simple string", async function() {
-    const result = await metadata("static/test/");
+    const result = await metadata("static/test/v1/");
     assert.deepEqual(result.title, "JavaScript Test Data");
   });
 });

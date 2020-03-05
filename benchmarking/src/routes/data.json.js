@@ -8,9 +8,10 @@ import {
   metadata,
   runs
 } from "../utils/read.mjs";
-import { prefix } from "../config.js";
+import { COLLECTION, DEFAULT_DATA_SET, PREFIX } from "../config.js";
 
-const root = process.env.DATA || path.join(prefix, "test");
+const root =
+  process.env.DATA || path.join(PREFIX, COLLECTION, DEFAULT_DATA_SET);
 
 export async function get(req, res) {
   const data = {};
@@ -19,7 +20,7 @@ export async function get(req, res) {
   data.paths = [];
   for (const directory of await directories(root)) {
     for (const file of await files(path.join(root, directory))) {
-      data.paths.push(path.relative(prefix, file));
+      data.paths.push(path.relative(PREFIX, file));
     }
   }
   res.setHeader("Content-Type", "application/json");

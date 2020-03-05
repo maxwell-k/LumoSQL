@@ -12,7 +12,41 @@ import { prefix } from "./config.js";
 polka()
   .use(
     compression({ threshold: 0 }),
-    sirv(prefix, { dev }),
+    sirv(prefix, {
+      dev,
+      setHeaders: (res, pathname) => {
+        /*
+         * Set the charset in content-type for certain HTML files
+         *
+         * This is function is a workaround so that `npx sapper export` does
+         * not fail with:
+         *
+         * > The "url" argument must be of type string. Received type object
+         *
+         * This error is caused because the html files in ./static/ do not
+         * include the base tag that %sapper.base% adds. Without the correct
+         * base tag, base_match in node_modules/sapper/dist/export.js is always
+         * null, causing a call equivalent to:
+         *
+         * require('url').resolve("http://localhost:3000/test/test.html", null)
+         *
+         * As a workaround this function sets the content type to "text/html;
+         * charset=UTF-8" and therefore avoids the calls to resolve.
+         *
+         * To be effective this workaround needs the change in
+         * https://github.com/lukeed/sirv/commit/5ef168f48d8bea850e28d4094ea1a907f3d06a14
+         *
+         * At the time of writing this is only available in a pre-release like
+         * https://www.npmjs.com/package/sirv/v/1.0.0-next.2
+         */
+        if (
+          (pathname.startsWith("/test/") || pathname.startsWith("/data/")) &&
+          pathname.endsWith(".html")
+        ) {
+          res.setHeader("Content-Type", "text/html; charset=UTF-8");
+        }
+      }
+    }),
     sapper.middleware()
   )
   .listen(PORT, err => {

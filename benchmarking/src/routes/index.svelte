@@ -19,21 +19,16 @@
   import { column } from "../utils/format.mjs";
   import All from "./_components/All.svelte";
 
-  const digits = 4;
   const runs = getRunNames(dataset);
   const versions = getVersions(dataset);
   const tests = getTestNames(dataset);
   const table = medians(arraysToMaps(dataset.runs));
   const paths = dataset.paths;
+
+  let denominatorIndex = null;
 </script>
 
 <style>
-  p.intro {
-    width: 15rem;
-  }
-  table.medians col:first-child {
-    width: 1rem;
-  }
   td.rotate {
     text-align: left;
     vertical-align: top;
@@ -66,20 +61,19 @@
 
 <h1>{dataset.metadata.title}</h1>
 
-<p class="intro">
-  Median across {runs.length} run{runs.length - 1 ? 's' : ''} in seconds.
+<p>
+  Median across {runs.length} run{runs.length - 1 ? 's' : ''} {denominatorIndex === null ? 'in seconds' : `as a multiple of row ${column(denominatorIndex)}`}.
 </p>
 
 <table class="medians">
-  <colgroup>
-    <col />
-    {#each tests as test}
-      <col />
-    {/each}
-  </colgroup>
   <thead>
     <tr>
       <td />
+      <td class="rotate">
+        <div>
+          <strong>Normalise</strong>
+        </div>
+      </td>
       {#each tests as test}
         <td class="rotate">
           <div>{test}</div>
@@ -93,16 +87,20 @@
     {#each versions as version, index}
       <tr>
         <td>{column(index)}</td>
-
+        <td>
+          <input type="radio" bind:group={denominatorIndex} value={index} />
+        </td>
         {#each tests as test}
           <td>
-            {table
-              .get(version)
-              .get(test)
-              .toFixed(digits)}
+            {(table
+                .get(version)
+                .get(
+                  test
+                ) / (denominatorIndex === null ? 1 : table
+                    .get(versions[denominatorIndex])
+                    .get(test))).toFixed(denominatorIndex === null ? 4 : 2)}
           </td>
         {/each}
-
         <td>{column(index)}</td>
         <td class="version">{version}</td>
       </tr>
@@ -111,9 +109,13 @@
   <tfoot>
     <tr>
       <td />
+      <td>
+        <input type="radio" bind:group={denominatorIndex} value={null} />
+      </td>
       {#each tests as test, index}
         <td>{index + 1}</td>
       {/each}
+      <td />
     </tr>
   </tfoot>
 </table>

@@ -7,11 +7,11 @@ import {
   metadata,
   runs
 } from "../../utils/read.mjs";
-import { COLLECTION, PREFIX } from "../../config.js";
+import configuration from "../../configuration.js";
 
 export async function get(req, res) {
   const { slug } = req.params;
-  const root = path.join(PREFIX, COLLECTION, slug);
+  const root = path.join(configuration.PREFIX, configuration.COLLECTION, slug);
 
   const data = {};
   data.runs = mapsToArrays(await runs(root));
@@ -19,7 +19,7 @@ export async function get(req, res) {
   data.paths = [];
   for (const directory of await directories(root)) {
     for (const file of await files(path.join(root, directory))) {
-      data.paths.push(path.relative(PREFIX, file));
+      data.paths.push(path.relative(configuration.PREFIX, file));
     }
   }
   res.setHeader("Content-Type", "application/json");

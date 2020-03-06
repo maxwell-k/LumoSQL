@@ -1,14 +1,14 @@
 /* eslint-env node */
-import resolve from "@rollup/plugin-node-resolve";
-import replace from "@rollup/plugin-replace";
-import commonjs from "@rollup/plugin-commonjs";
-import svelte from "rollup-plugin-svelte";
-import babel from "rollup-plugin-babel";
-import { terser } from "rollup-plugin-terser";
-import config from "sapper/config/rollup.js";
-import pkg from "./package.json";
+const resolve = require("@rollup/plugin-node-resolve");
+const replace = require("@rollup/plugin-replace");
+const commonjs = require("@rollup/plugin-commonjs");
+const svelte = require("rollup-plugin-svelte");
+const babel = require("rollup-plugin-babel");
+const { terser } = require("rollup-plugin-terser");
+const config = require("sapper/config/rollup.js");
+const pkg = require("./package.json");
 
-import { COLLECTION } from "./src/config.js";
+const configuration = require("./src/configuration.js");
 
 const mode = process.env.NODE_ENV;
 const dev = mode === "development";
@@ -22,10 +22,12 @@ const onwarn = (warning, onwarn) =>
 const commonReplace = replace({
   "process.browser": true,
   "process.env.NODE_ENV": JSON.stringify(mode),
-  "process.env.COLLECTION": JSON.stringify(COLLECTION)
+  "process.env.COLLECTION": JSON.stringify(configuration.COLLECTION)
 });
 
-export default {
+const convert = commonjs();
+
+module.exports = {
   client: {
     input: config.client.input(),
     output: config.client.output(),
@@ -38,9 +40,9 @@ export default {
       }),
       resolve({
         browser: true,
-        dedupe: ['svelte']
+        dedupe: ["svelte"]
       }),
-      commonjs(),
+      convert,
 
       legacy &&
         babel({
@@ -85,9 +87,9 @@ export default {
         dev
       }),
       resolve({
-        dedupe: ['svelte']
+        dedupe: ["svelte"]
       }),
-      commonjs()
+      convert
     ],
     external: Object.keys(pkg.dependencies).concat(
       require("module").builtinModules ||
@@ -100,7 +102,7 @@ export default {
   serviceworker: {
     input: config.serviceworker.input(),
     output: config.serviceworker.output(),
-    plugins: [resolve(), commonReplace, commonjs(), !dev && terser()],
+    plugins: [resolve(), commonReplace, convert, !dev && terser()],
 
     onwarn
   }

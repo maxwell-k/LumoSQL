@@ -3,9 +3,9 @@
 import Ajv from "ajv";
 import yaml from "js-yaml";
 import { getVersions } from "../../src/utils/arrange.mjs";
-import { DEFAULT_DATA_SET } from "../../src/config.js";
+import configuration from "../../src/configuration.js";
 
-const route = `/datasets/${DEFAULT_DATA_SET}.json`;
+const route = `/datasets/${configuration.DEFAULT_DATA_SET}.json`;
 
 describe("/", () => {
   beforeEach(() => {

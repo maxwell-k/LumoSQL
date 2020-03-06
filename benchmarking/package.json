@@ -56,6 +56,7 @@
   "eslintIgnore": [
     "*.html",
     "*.json",
+    "*.png",
     "/out/",
     "/src/node_modules/"
   ],

@@ -18,8 +18,6 @@ const onwarn = (warning, onwarn) =>
   (warning.code === "CIRCULAR_DEPENDENCY" &&
     /[/\\]@sapper[/\\]/.test(warning.message)) ||
   onwarn(warning);
-const dedupe = importee =>
-  importee === "svelte" || importee.startsWith("svelte/");
 
 const commonReplace = replace({
   "process.browser": true,
@@ -40,7 +38,7 @@ export default {
       }),
       resolve({
         browser: true,
-        dedupe
+        dedupe: ['svelte']
       }),
       commonjs(),
 
@@ -87,7 +85,7 @@ export default {
         dev
       }),
       resolve({
-        dedupe
+        dedupe: ['svelte']
       }),
       commonjs()
     ],

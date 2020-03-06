@@ -22,7 +22,19 @@ describe("/", () => {
   it("links to /schema.json", () => {
     cy.get("[data-cy=schema]").should("have.attr", "href", "/schema.json");
   });
+  it(`links to v2`, () => {
+    cy.get("p a:first").should("have.attr", "href", "overview/v2");
+  });
 });
+describe("/overview/v2", () => {
+  beforeEach(() => {
+    cy.visit("/overview/v2");
+  });
+  it(`links to v1`, () => {
+    cy.get("p a:first").should("have.attr", "href", "overview/v1");
+  });
+});
+
 describe(route, () => {
   it("returns JSON", () => {
     cy.request(route)
@@ -69,7 +81,7 @@ describe("/datasets.json", () => {
       .its("content-type")
       .should("include", "application/json");
   });
-  it("validate", function() {
+  it("expected body", function() {
     cy.request("/datasets.json")
       .its("body")
       .should(body => expect(body).to.deep.eq(["v1", "v2"]));

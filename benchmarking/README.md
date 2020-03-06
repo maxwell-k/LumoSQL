@@ -7,25 +7,32 @@
 1. Start with the root of this repository as the current working directory
 2. Make sure you have successfully built the repository once e.g. with a simple
    `make` command
-3. Set the `DATA` environment variable to where you want to store the
-   benchmarking data e.g. `export DATA=/var/srv/data`
+3. Set the `WORKDIR` environment variable to where you want to store the
+   benchmarking data e.g. `export WORKDIR=~/data`
 4. Start the benchmarking, the shell script below will produce five runs:
 
    ```sh
-   test -d "$DATA" || echo '$DATA is not set properly'
-   path="$PWD"
-   cd "$DATA"
+   test -d "$WORKDIR" || echo '$WORKDIR is not set properly'
+   repo="$PWD"
+   cd "$WORKDIR"
    date &&
    seq 1 5 | while read i ; do
-     test -d "$i" || git clone "$path" "$i" || break
-     test -d "$i/src-SQLite" || git -C "$i" clone "$path/src-SQLite" || break
-     test -d "$i/src-lmdb" || git -C "$i" clone "$path/src-lmdb" || break
+     test -d "$i" || git clone "$repo" "$i" || break
+     test -d "$i/src-SQLite" || git -C "$i" clone "$repo/src-SQLite" || break
+     test -d "$i/src-lmdb" || git -C "$i" clone "$repo/src-lmdb" || break
      make -C "$i" benchmark || break
    done &&
    date
    ```
 
 5. Add metadata such as a title to `metadata.json` in the data directory.
+
+### Copy the data into this tree
+
+```sh
+test -d "$WORKDIR" || echo '$WORKDIR is not set properly'
+make copy NAME=v9999
+```
 
 ### Summarise and publish the benchmarking data
 
@@ -36,14 +43,10 @@ This process use Node JS and a JavaScript framework called svelte:
   may help
 - Run `npm install` in this `benchmarking` directory
 
-Each time you wish to produce a table, set the `DATA` environment variable to
-where you want to store the benchmarking data e.g. `export DATA=/var/srv/data`,
-as above.
-
 Then start with this directory, `benchmarking`, as the current directory:
 
 ```sh
-test -d "$DATA" || echo '$DATA is not set properly'
+export COLLECTION=production
 npx sapper dev                      # check everything looks OK
 test -d gh-pages || git worktree add gh-pages gh-pages
 npm run gh-pages

@@ -7,18 +7,24 @@ check:
 	$(ENGINE) run -v "$(PWD):/srv:Z" -w /srv $(IMAGE) .ci/checks.sh
 
 copy:
-	test -d "$(SRC)"  # SRC should be set and exist as a directory
+	test -d "$(WORKDIR)"  # WORKDIR should be set and exist as a directory
 	test -n "$(NAME)" # validate NAME
 	test -d "static/production/$(NAME)" || \
 	mkdir "static/production/$(NAME)"
-	find "$(SRC)" -name metadata.json \
+	find "$(WORKDIR)" -name metadata.json \
 	-exec cp {} "static/production/$(NAME)" \;
-	find "$(SRC)" -mindepth 1 -maxdepth 1 -type d | \
+	find "$(WORKDIR)" -mindepth 1 -maxdepth 1 -type d | \
 	while read i; do echo "static/production/$(NAME)/$${i##*/}"; done | \
 	while read i; do test -d "$$i" || mkdir "$$i"; done
-	find "$(SRC)" -mindepth 2 -maxdepth 2 -name '*.html' | \
+	find "$(WORKDIR)" -mindepth 2 -maxdepth 2 -name '*.html' | \
 	while read i; do \
-	cp "$$i" "static/production/$(NAME)/$${i##$(SRC)/}"; done
+	cp "$$i" "static/production/$(NAME)/$${i##$(WORKDIR)/}"; done
 
 clean:
 	rm -rf __sapper__ coverage src/node_modules cypress/screenshots
+
+# Serve exported assets
+# Use Python's http.server because it is likely already installed and
+# clear has no connection to the JavaScript ecosystem.
+serve:
+	python3 -m http.server --directory __sapper__/export

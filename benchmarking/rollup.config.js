@@ -8,6 +8,8 @@ import { terser } from "rollup-plugin-terser";
 import config from "sapper/config/rollup.js";
 import pkg from "./package.json";
 
+import { COLLECTION } from "./src/config.js";
+
 const mode = process.env.NODE_ENV;
 const dev = mode === "development";
 const legacy = !!process.env.SAPPER_LEGACY_BUILD;
@@ -19,15 +21,18 @@ const onwarn = (warning, onwarn) =>
 const dedupe = importee =>
   importee === "svelte" || importee.startsWith("svelte/");
 
+const commonReplace = replace({
+  "process.browser": true,
+  "process.env.NODE_ENV": JSON.stringify(mode),
+  "process.env.COLLECTION": JSON.stringify(COLLECTION)
+});
+
 export default {
   client: {
     input: config.client.input(),
     output: config.client.output(),
     plugins: [
-      replace({
-        "process.browser": true,
-        "process.env.NODE_ENV": JSON.stringify(mode)
-      }),
+      commonReplace,
       svelte({
         dev,
         hydratable: true,
@@ -76,10 +81,7 @@ export default {
     input: config.server.input(),
     output: config.server.output(),
     plugins: [
-      replace({
-        "process.browser": false,
-        "process.env.NODE_ENV": JSON.stringify(mode)
-      }),
+      commonReplace,
       svelte({
         generate: "ssr",
         dev
@@ -100,15 +102,7 @@ export default {
   serviceworker: {
     input: config.serviceworker.input(),
     output: config.serviceworker.output(),
-    plugins: [
-      resolve(),
-      replace({
-        "process.browser": true,
-        "process.env.NODE_ENV": JSON.stringify(mode)
-      }),
-      commonjs(),
-      !dev && terser()
-    ],
+    plugins: [resolve(), commonReplace, commonjs(), !dev && terser()],
 
     onwarn
   }

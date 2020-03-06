@@ -1,4 +1,3 @@
-/* global process */
 import path from "path";
 
 import {
@@ -10,8 +9,7 @@ import {
 } from "../utils/read.mjs";
 import { COLLECTION, DEFAULT_DATA_SET, PREFIX } from "../config.js";
 
-const root =
-  process.env.DATA || path.join(PREFIX, COLLECTION, DEFAULT_DATA_SET);
+const root = path.join(PREFIX, COLLECTION, DEFAULT_DATA_SET);
 
 export async function get(req, res) {
   const data = {};

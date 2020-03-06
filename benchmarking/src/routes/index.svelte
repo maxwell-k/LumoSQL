@@ -1,13 +1,15 @@
 <script context="module">
+  import { DEFAULT_DATA_SET } from "../config.js";
   export async function preload() {
-    const res = await this.fetch(`data.json`);
+    const route = `datasets/${DEFAULT_DATA_SET}.json`;
+    const res = await this.fetch(route);
     const dataset = await res.json();
-    return { dataset };
+    return { dataset, route };
   }
 </script>
 
 <script>
-  export let dataset;
+  export let dataset, route;
 
   import {
     arraysToMaps,
@@ -124,7 +126,7 @@
   <summary>JSON</summary>
   <ul>
     <li>
-      <a href="/data.json" data-cy="data">data.json</a>
+      <a href="/{route}" data-cy="data">{route}</a>
       includes the data extracted from the HTML reports.
     </li>
     <li>

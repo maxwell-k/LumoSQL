@@ -3,6 +3,9 @@
 import Ajv from "ajv";
 import yaml from "js-yaml";
 import { getVersions } from "../../src/utils/arrange.mjs";
+import { DEFAULT_DATA_SET } from "../../src/config.js";
+
+const route = `/datasets/${DEFAULT_DATA_SET}.json`;
 
 describe("/", () => {
   beforeEach(() => {
@@ -13,25 +16,23 @@ describe("/", () => {
       .invoke("text")
       .should("eq", "JavaScript Test Data");
   });
-  it("links to /data.json", () => {
-    cy.get("[data-cy=data]").should("have.attr", "href", "/data.json");
+  it(`links to ${route}`, () => {
+    cy.get("[data-cy=data]").should("have.attr", "href", route);
   });
   it("links to /schema.json", () => {
     cy.get("[data-cy=schema]").should("have.attr", "href", "/schema.json");
   });
 });
-describe("/data.json", () => {
+describe(route, () => {
   it("returns JSON", () => {
-    cy.request("/data.json")
+    cy.request(route)
       .its("headers")
       .its("content-type")
       .should("include", "application/json");
   });
   it("validate against schema.yaml", function() {
     /*
-     * For more helpful debug messages, use:
-     * curl -O http://localhost:3000/data.json
-     * curl -O http://localhost:3000/schema.json
+     * For more helpful debug messages, download with curl and run:
      * npx ajv-cli validate -s schema.json -d data.json
      */
 
@@ -45,7 +46,7 @@ describe("/data.json", () => {
       validate = ajv.compile(json);
     });
 
-    cy.request("/data.json")
+    cy.request(route)
       .its("body")
       .should(body => expect(validate(body)).to.be.true);
   });
@@ -56,14 +57,14 @@ describe("/data.json", () => {
       "3.7.17 c896ea8 LMDB_0.9.9  7449ca6",
       "3.7.17 c896ea8 LMDB_0.9.16 5d67c6a"
     ];
-    cy.request("/data.json")
+    cy.request(route)
       .its("body")
       .then(runs => expect(getVersions(runs)).to.deep.equal(order));
   });
 });
 describe("/schema.json", () => {
   it("returns JSON", () => {
-    cy.request("/data.json")
+    cy.request("/schema.json")
       .its("headers")
       .its("content-type")
       .should("include", "application/json");

@@ -6,12 +6,13 @@ import {
   mapsToArrays,
   metadata,
   runs
-} from "../utils/read.mjs";
-import { COLLECTION, DEFAULT_DATA_SET, PREFIX } from "../config.js";
-
-const root = path.join(PREFIX, COLLECTION, DEFAULT_DATA_SET);
+} from "../../utils/read.mjs";
+import { COLLECTION, PREFIX } from "../../config.js";
 
 export async function get(req, res) {
+  const { slug } = req.params;
+  const root = path.join(PREFIX, COLLECTION, slug);
+
   const data = {};
   data.runs = mapsToArrays(await runs(root));
   data.metadata = await metadata(root);

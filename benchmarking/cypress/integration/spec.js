@@ -62,6 +62,19 @@ describe(route, () => {
       .then(runs => expect(getVersions(runs)).to.deep.equal(order));
   });
 });
+describe("/datasets.json", () => {
+  it("returns JSON", () => {
+    cy.request("/datasets.json")
+      .its("headers")
+      .its("content-type")
+      .should("include", "application/json");
+  });
+  it("validate", function() {
+    cy.request("/datasets.json")
+      .its("body")
+      .should(body => expect(body).to.deep.eq(["v1", "v2"]));
+  });
+});
 describe("/schema.json", () => {
   it("returns JSON", () => {
     cy.request("/schema.json")

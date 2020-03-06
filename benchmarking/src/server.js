@@ -7,7 +7,15 @@ import * as sapper from "@sapper/server";
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === "development";
 
-import { PREFIX, shouldAddCharset } from "./config.js";
+import { CHARSET_DIRECTORIES, CHARSET_TAIL, PREFIX } from "./config.js";
+
+function shouldAddCharset(pathname) {
+  return (
+    CHARSET_DIRECTORIES.some(directory =>
+      pathname.startsWith(`/${directory}/`)
+    ) && pathname.endsWith(CHARSET_TAIL)
+  );
+}
 
 polka()
   .use(

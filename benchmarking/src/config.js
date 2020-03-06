@@ -9,9 +9,5 @@ export const COLLECTION = process.env.COLLECTION || "test"; // or production
 /* Other configuration */
 export const PREFIX = "static";
 export const DEFAULT_DATA_SET = "v1";
-export function shouldAddCharset(pathname) {
-  return (
-    (pathname.startsWith("/test/") || pathname.startsWith("/production/")) &&
-    pathname.endsWith(".html")
-  );
-}
+export const CHARSET_DIRECTORIES = ["test", "production"];
+export const CHARSET_TAIL = ".html";

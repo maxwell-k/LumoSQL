@@ -19,7 +19,7 @@
     medians
   } from "../../utils/arrange.mjs";
   import { column } from "../../utils/format.mjs";
-  import All from "../_components/All.svelte";
+  import All from "../../components/All.svelte";
 
   const runs = getRunNames(dataset);
   const versions = getVersions(dataset);

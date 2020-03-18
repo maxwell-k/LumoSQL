@@ -4,8 +4,8 @@
     getRunNames,
     getTestNames,
     getVersions
-  } from "../../utils/arrange.mjs";
-  import { column, join } from "../../utils/format.mjs";
+  } from "../utils/arrange.mjs";
+  import { column, join } from "../utils/format.mjs";
 
   export let dataset;
 

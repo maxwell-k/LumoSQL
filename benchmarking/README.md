@@ -139,7 +139,7 @@ We use [Mocha](https://mochajs.org) for unit tests:
 
 ```sh
 yarn run unit
-yarn run unit:debug
+yarn run unit inspect
 ```
 
 Mocha's support for ES Modules is a

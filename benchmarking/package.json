@@ -108,7 +108,6 @@
     "lint": "eslint 'src/**' 'cypress/**' 'test/**'",
     "start": "node __sapper__/build",
     "test": "yarn run unit && yarn run cypress run",
-    "unit": "yarn run mocha --experimental-modules",
-    "unit:debug": "yarn run mocha --experimental-modules inspect"
+    "unit": "yarn run mocha --experimental-modules"
   }
 }

@@ -3,9 +3,11 @@
 
 const startAndTest = require("start-server-and-test");
 
+const configuration = require("./configuration.js");
+
 const start = "node __sapper__/build";
 const test = "yarn run cypress run";
-const url = "http://127.0.0.1:3000/";
+const url = `http://127.0.0.1:3000/${configuration.BASE_PATH}`;
 
 console.log('Waiting for "%s" to respond with HTTP status code 200…', url);
 

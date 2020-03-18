@@ -10,6 +10,7 @@ configuration.CHARSET_TAIL = ".html";
 // Be careful to add all process.env references to configuration._environment
 /* global process */
 configuration.environment = {
+  BASE_PATH: process.env.BASE_PATH || "benchmarking-preview",
   COLLECTION: process.env.COLLECTION || "test", // or production
   NODE_ENV: process.env.NODE_ENV,
   SAPPER_LEGACY_BUILD: process.env.SAPPER_LEGACY_BUILD

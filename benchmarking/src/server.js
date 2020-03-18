@@ -16,6 +16,7 @@ function shouldAddCharset(pathname) {
 
 polka()
   .use(
+    configuration.BASE_PATH,
     compression({ threshold: 0 }),
     sirv(configuration.PREFIX, {
       dev,

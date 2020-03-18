@@ -9,12 +9,14 @@
 // https://on.cypress.io/plugins-guide
 // ***********************************************************
 
+const configuration = require("../../src/configuration.js");
+
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
 
-// Changed from the below to avoid eslint warnings:
-// module.exports = (on, config) => {
-module.exports = () => {
+module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
+  config.baseUrl = `http://localhost:3000/${configuration.BASE_PATH}`;
+  return config;
 };

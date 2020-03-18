@@ -95,16 +95,20 @@
     "start-server-and-test": "^1.10.11",
     "svelte": "^3.0.0"
   },
+  "resolutions": {
+    "cypress/extract-zip/mkdirp": "^0.5.3",
+    "cypress/minimist": "^1.2.5"
+  },
   "scripts": {
     "apidocs": "jsdoc -c .jsdoc.conf.json",
     "check-coverage": "c8 check-coverage --functions 100 --lines 100 --branches 100 --statements 100 --per-file",
     "format": "prettier --write '*.{js,json}' '**/*.{js,json,mjs,svelte}'",
-    "gh-pages": "npx sapper export && rm -rf gh-pages/* && cp -r __sapper__/export/* gh-pages/ && git -C gh-pages add .",
-    "integration-tests": "WAIT_ON_TIMEOUT=10000 start-server-and-test 3000 'npx cypress run'",
+    "gh-pages": "yarn run sapper export && rm -rf gh-pages/* && cp -r __sapper__/export/* gh-pages/ && git -C gh-pages add .",
+    "integration-tests": "WAIT_ON_TIMEOUT=10000 start-server-and-test 3000 'yarn run cypress run'",
     "lint": "eslint 'src/**' 'cypress/**' 'test/**'",
     "start": "node __sapper__/build",
-    "test": "npm run unit && npx cypress run",
-    "unit": "node --experimental-modules $(npm bin)/mocha",
-    "unit:debug": "node inspect --experimental-modules $(npm bin)/mocha"
+    "test": "yarn run unit && yarn run cypress run",
+    "unit": "yarn run mocha --experimental-modules",
+    "unit:debug": "yarn run mocha --experimental-modules inspect"
   }
 }

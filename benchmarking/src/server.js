@@ -26,8 +26,8 @@ polka()
         /*
          * Set the charset in content-type for certain HTML files
          *
-         * This is function is a workaround so that `npx sapper export` does
-         * not fail with:
+         * This is function is a workaround so that `yarn run sapper export`
+         * does not fail with:
          *
          * > The "url" argument must be of type string. Received type object
          *

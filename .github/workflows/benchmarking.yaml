@@ -11,14 +11,14 @@ jobs:
         if: startsWith(job.container.network, 'github_network_')
         uses: actions/cache@v1
         with:
-          path: ~/.npm
-          key: npm-${{ hashFiles('**/package-lock.json') }}
+          path: ~/.cache/yarn
+          key: yarn-${{ hashFiles('**/yarn.lock') }}
       - name: Persist the cached Cypress binary on GitHub but not in act
         if: startsWith(job.container.network, 'github_network_')
         uses: actions/cache@v1
         with:
           path: benchmarking/.ci/cypress_cache/
-          key: cypress-${{ hashFiles('**/package-lock.json') }}
+          key: cypress-${{ hashFiles('**/yarn.lock') }}
       - name: Run checks on benchmarking code
         run: cd benchmarking && sh .ci/checks.sh
 #

@@ -41,15 +41,15 @@ This process use Node JS and a JavaScript framework called svelte:
 
 - Make sure you have Node JS 12 or higher installed, the [official instructions]
   may help
-- Run `npm install` in this `benchmarking` directory
+- Run `yarn install` in this `benchmarking` directory
 
 Then start with this directory, `benchmarking`, as the current directory:
 
 ```sh
 export COLLECTION=production
-npx sapper dev                      # check everything looks OK
+yarn run sapper dev                      # check everything looks OK
 test -d gh-pages || git worktree add gh-pages gh-pages
-npm run gh-pages
+yarn run gh-pages
 cd gh-pages
 python3 -m http.server           # check it looks good or another http server
 git commit
@@ -94,7 +94,7 @@ The full test suite for the benchmarking code consists of:
 1. unit tests and
 2. integration tests
 
-If all dependencies are installed, `npm test` will run both the unit and
+If all dependencies are installed, `yarn test` will run both the unit and
 integration tests.
 
 To run the test suite using `podman` or `docker` use:
@@ -123,8 +123,8 @@ These instructions were most recently tested with:
 ```sh
 $ node --version
 v12.15.0
-$ npm --version
-6.13.4
+$ yarn --version
+1.22.4
 $ act --version
 act version 0.2.3
 $ podman --version
@@ -138,8 +138,8 @@ podman version 1.6.1
 We use [Mocha](https://mochajs.org) for unit tests:
 
 ```sh
-npm run unit
-npm run unit:debug
+yarn run unit
+yarn run unit:debug
 ```
 
 Mocha's support for ES Modules is a
@@ -157,21 +157,30 @@ commands below will run the integration tests.
 
 <summary>Cypress dependencies</summary>
 
-The following commands should set up the dependencies on Fedora 31:
+The following three steps set up the dependencies on Fedora 31.
 
-```sh
-sudo dnf upgrade --assumeyes &&
-sudo dnf install --assumeyes \
-  nodejs gtk3 alsa-lib nss libXScrnSaver libcanberra-gtk3 &&
-sudo npm install -g npm &&
-npm ci
-```
+1. First install Node and the other operating system dependencies:
+
+   ```sh
+   sudo dnf upgrade --assumeyes &&
+   sudo dnf install --assumeyes \
+     nodejs gtk3 alsa-lib nss libXScrnSaver libcanberra-gtk3
+   ```
+
+2. Second install the yarn 1.x JavaScript package manager following [the
+   official instructions].
+
+3. Install the JavaScript dependencies:
+
+   ```sh
+   yarn install --frozen-lockfile
+   ```
 
 </details>
 
 ```sh
-npx sapper build
-npm run integration-tests
+yarn run sapper build
+yarn run integration-tests
 ```
 
 <details>
@@ -182,14 +191,17 @@ run a server and the tests. To perform these steps separately and run the tests
 against the development server run the two commands below in separate terminals:
 
 ```sh
-npx sapper dev
-npx cypress run
+yarn run sapper dev
+yarn run cypress run
 ```
 
 To debug integration tests try:
 
 ```sh
-npx cypress open
+yarn run cypress open
 ```
 
 </details>
+
+[the official instructions]:
+  https://classic.yarnpkg.com/en/docs/install/#centos-stable

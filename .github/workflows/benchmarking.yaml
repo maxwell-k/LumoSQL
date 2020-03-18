@@ -3,24 +3,22 @@ on: { push }
 jobs:
   benchmarking:
     runs-on: ubuntu-latest
-    container: { image: "cypress/base:12.16.0" }
     name: Run checks on benchmarking code
     steps:
       - uses: actions/checkout@v2
-      - name: Persist the npm cache on GitHub but not in act
-        if: startsWith(job.container.network, 'github_network_')
+      - name: Persist the npm cache on GitHub
         uses: actions/cache@v1
         with:
           path: ~/.cache/yarn
           key: yarn-${{ hashFiles('**/yarn.lock') }}
-      - name: Persist the cached Cypress binary on GitHub but not in act
-        if: startsWith(job.container.network, 'github_network_')
+      - name: Persist the cached Cypress binary on GitHub
         uses: actions/cache@v1
         with:
           path: benchmarking/.ci/cypress_cache/
           key: cypress-${{ hashFiles('**/yarn.lock') }}
       - name: Run checks on benchmarking code
-        run: cd benchmarking && sh .ci/checks.sh
+        run: make ENGINE=docker check
+        working-directory: ./benchmarking
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.

@@ -1,5 +1,5 @@
 #!/bin/sh
-# Install dependencies on GitHub CI, should skip under `act -b`
+# Install dependencies where needed
 if [ ! -d "$(yarn bin)" ] ; then
 	CYPRESS_INSTALL_BINARY=0 yarn install --frozen-lockfile
 fi &&
@@ -11,7 +11,7 @@ yarn run lint &&
 yarn run c8 yarn run unit &&
 # Check coverage level meets criteria
 yarn run check-coverage &&
-# Cache the cypress binary where act makes it available
+# Cache the cypress binary so its available inside a container
 export CYPRESS_CACHE_FOLDER="${PWD}/.ci/cypress_cache" &&
 # Install the cypress binary without too much output
 CI=true yarn run cypress install &&

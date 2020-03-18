@@ -106,13 +106,8 @@ make ENGINE=docker check  # can leave files owned by root
 ```
 
 The full test suite is run as a workflow via GitHub actions using Linux
-containers. To run the workflow locally use
-[act](https://github.com/nektos/act/):
-
-```sh
-act -j benchmarking     # or
-act -j benchmarking -b  # to use existing node_modules directory
-```
+containers via `.github/workflows/benchmarking.yaml`. This includes caching and
+executing the check target from `./Makefile`.
 
 <details>
 
@@ -125,8 +120,6 @@ $ node --version
 v12.15.0
 $ yarn --version
 1.22.4
-$ act --version
-act version 0.2.3
 $ podman --version
 podman version 1.6.1
 ```

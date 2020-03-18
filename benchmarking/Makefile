@@ -1,5 +1,5 @@
 ENGINE = podman
-IMAGE = cypress/base:12.16.0  # should match ../.github/workflows/benchmarking.yaml
+IMAGE = cypress/base:12.16.0
 
 directory = -v "$(PWD):/srv:Z" -w /srv
 timeout = --env=WAIT_ON_TIMEOUT=5000

@@ -9,6 +9,9 @@ timeout = --env=WAIT_ON_TIMEOUT=5000
 check:
 	$(ENGINE) run $(timeout) $(directory) $(IMAGE) .ci/checks.sh
 
+browse:
+	firefox --private-window http://127.0.0.1:3000/benchmarking-preview
+
 copy:
 	test -d "$(WORKDIR)"  # WORKDIR should be set and exist as a directory
 	test -n "$(NAME)" # validate NAME

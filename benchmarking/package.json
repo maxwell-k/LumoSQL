@@ -4,7 +4,7 @@
   "description": "Wrappers to benchmark LumoSQL",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/maxwell-k/benchmarking.git"
+    "url": "git+ssh://git@github.com/LumoSQL/LumoSQL.git"
   },
   "keywords": [
     "LumoSQL",
@@ -15,9 +15,9 @@
   "author": "Keith Maxwell",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/maxwell-k/benchmarking/issues"
+    "url": "https://github.com/LumoSQL/LumoSQL/issues"
   },
-  "homepage": "https://github.com/maxwell-k/benchmarking#readme",
+  "homepage": "https://github.com/LumoSQL/LumoSQL#readme",
   "eslintConfig": {
     "env": {
       "es6": true

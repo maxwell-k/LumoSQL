@@ -180,14 +180,13 @@ The following three steps set up the dependencies on Fedora 31.
 
 ```sh
 yarn run sapper build
-yarn run integration-tests
+node src/integration-tests.js
 ```
 
 <details>
 
-Behind the scenes that `integration-tests` script uses
-[start-server-and-test](https://www.npmjs.com/package/start-server-and-test) to
-run a server and the tests. To perform these steps separately and run the tests
+Behind the scenes `src/integration-tests.js` uses [start-server-and-test] to run
+a server and the tests. To perform these steps separately and run the tests
 against the development server run the two commands below in separate terminals:
 
 ```sh
@@ -205,3 +204,4 @@ yarn run cypress open
 
 [the official instructions]:
   https://classic.yarnpkg.com/en/docs/install/#centos-stable
+[start-server-and-test]: https://www.npmjs.com/package/start-server-and-test

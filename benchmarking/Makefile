@@ -1,10 +1,13 @@
 ENGINE = podman
 IMAGE = cypress/base:12.16.0  # should match ../.github/workflows/benchmarking.yaml
 
+directory = -v "$(PWD):/srv:Z" -w /srv
+timeout = --env=WAIT_ON_TIMEOUT=5000
+
 .PHONY: check copy clean
 
 check:
-	$(ENGINE) run -v "$(PWD):/srv:Z" -w /srv $(IMAGE) .ci/checks.sh
+	$(ENGINE) run $(timeout) $(directory) $(IMAGE) .ci/checks.sh
 
 copy:
 	test -d "$(WORKDIR)"  # WORKDIR should be set and exist as a directory

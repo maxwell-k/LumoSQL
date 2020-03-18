@@ -17,5 +17,5 @@ export CYPRESS_CACHE_FOLDER="${PWD}/.ci/cypress_cache" &&
 CI=true yarn run cypress install &&
 # Verify the install
 yarn run cypress verify &&
-# Start server and run integration tests
-yarn run integration-tests
+# Start server, run integration tests, stop server
+node src/integration-tests.js

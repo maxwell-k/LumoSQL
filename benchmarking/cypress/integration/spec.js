@@ -23,7 +23,7 @@ describe("/", () => {
     cy.get("[data-cy=schema]").should("have.attr", "href", "/schema.json");
   });
   it(`links to v2`, () => {
-    cy.get("p a:first").should("have.attr", "href", "overview/v2");
+    cy.get("nav a:first").should("have.attr", "href", "overview/v2");
   });
 });
 describe("/overview/v2", () => {
@@ -31,7 +31,7 @@ describe("/overview/v2", () => {
     cy.visit("/overview/v2");
   });
   it(`links to v1`, () => {
-    cy.get("p a:first").should("have.attr", "href", "overview/v1");
+    cy.get("nav a:first").should("have.attr", "href", "overview/v1");
   });
 });
 

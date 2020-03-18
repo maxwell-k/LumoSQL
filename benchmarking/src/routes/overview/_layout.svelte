@@ -1,29 +1,15 @@
 <script context="module">
   export async function preload() {
     const res = await this.fetch("datasets.json");
-    const versions = await res.json();
-    return { versions };
+    const dataSets = await res.json();
+    return { dataSets };
   }
 </script>
 
 <script>
-  export let versions, segment;
+  import DataSetNav from "../../components/DataSetNav.svelte";
+  export let dataSets, segment;
 </script>
 
-<style>
-  span,
-  a {
-    padding-left: 0.2em;
-  }
-</style>
-
-<p>
-  {#each versions as version}
-    {#if segment === version}
-      <span>{version}</span>
-    {:else}
-      <a href="overview/{version}">{version}</a>
-    {/if}
-  {/each}
-</p>
+<DataSetNav {dataSets} {segment} />
 <slot />

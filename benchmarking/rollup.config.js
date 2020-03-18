@@ -9,21 +9,17 @@ const config = require("sapper/config/rollup.js");
 const pkg = require("./package.json");
 
 const configuration = require("./src/configuration.js");
-
-const mode = process.env.NODE_ENV;
-const dev = mode === "development";
-const legacy = !!process.env.SAPPER_LEGACY_BUILD;
+const { dev, legacy } = configuration;
 
 const onwarn = (warning, onwarn) =>
   (warning.code === "CIRCULAR_DEPENDENCY" &&
     /[/\\]@sapper[/\\]/.test(warning.message)) ||
   onwarn(warning);
 
-const commonReplace = replace({
-  "process.browser": true,
-  "process.env.NODE_ENV": JSON.stringify(mode),
-  "process.env.COLLECTION": JSON.stringify(configuration.COLLECTION)
-});
+const replacements = { "process.browser": true };
+for (const key of Object.keys(configuration.environment)) {
+  replacements[`process.env.${key}`] = JSON.stringify(configuration[key]);
+}
 
 const convert = commonjs();
 
@@ -32,7 +28,7 @@ module.exports = {
     input: config.client.input(),
     output: config.client.output(),
     plugins: [
-      commonReplace,
+      replace(replacements),
       svelte({
         dev,
         hydratable: true,
@@ -81,7 +77,7 @@ module.exports = {
     input: config.server.input(),
     output: config.server.output(),
     plugins: [
-      commonReplace,
+      replace(replacements),
       svelte({
         generate: "ssr",
         dev
@@ -102,7 +98,7 @@ module.exports = {
   serviceworker: {
     input: config.serviceworker.input(),
     output: config.serviceworker.output(),
-    plugins: [resolve(), commonReplace, convert, !dev && terser()],
+    plugins: [resolve(), replace(replacements), convert, !dev && terser()],
 
     onwarn
   }

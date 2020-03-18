@@ -1,13 +1,10 @@
-/* eslint-env node */
 import sirv from "sirv";
 import polka from "polka";
 import compression from "compression";
 import * as sapper from "@sapper/server";
 
-const { PORT, NODE_ENV } = process.env;
-const dev = NODE_ENV === "development";
-
 import configuration from "./configuration.js";
+const { dev } = configuration;
 
 function shouldAddCharset(pathname) {
   return (
@@ -54,6 +51,8 @@ polka()
     }),
     sapper.middleware()
   )
-  .listen(PORT, err => {
+  /* global process, console */
+  // moving process.env.PORT into src/configuration.js causes errors
+  .listen(process.env.PORT, err => {
     if (err) console.log("error", err);
   });

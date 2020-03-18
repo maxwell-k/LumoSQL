@@ -1,9 +1,8 @@
 <script>
-  /* global process */
   export let status;
   export let error;
 
-  const dev = process.env.NODE_ENV === "development";
+  import configuration from "../configuration.js";
 </script>
 
 <svelte:head>
@@ -14,6 +13,6 @@
 
 <p>{error.message}</p>
 
-{#if dev && error.stack}
+{#if configuration.dev && error.stack}
   <pre>{error.stack}</pre>
 {/if}

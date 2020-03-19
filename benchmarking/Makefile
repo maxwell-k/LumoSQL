@@ -1,13 +1,26 @@
+DISPLAY= :0
 ENGINE = podman
 IMAGE = cypress/base:12.16.0
 
+cache = --env=CYPRESS_CACHE_FOLDER="/srv/.ci/cypress_cache"
 directory = -v "$(PWD):/srv:Z" -w /srv
 timeout = --env=WAIT_ON_TIMEOUT=5000
 
 .PHONY: check copy clean
 
+cypress-open:
+	$(ENGINE) run -it --rm \
+		--net host \
+		--ipc host \
+		--volume=/tmp/.X11-unix:/tmp/.X11-unix \
+		--env=DISPLAY=$(DISPLAY) \
+		$(cache) \
+		$(directory) \
+		$(IMAGE) \
+		yarn run cypress open
+
 check:
-	$(ENGINE) run $(timeout) $(directory) $(IMAGE) .ci/checks.sh
+	$(ENGINE) run $(cache) $(directory) $(timeout) $(IMAGE) .ci/checks.sh
 
 browse:
 	firefox --private-window http://127.0.0.1:3000/benchmarking-preview

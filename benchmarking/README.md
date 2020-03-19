@@ -91,8 +91,8 @@ This benchmarking project:
 
 The full test suite for the benchmarking code consists of:
 
-1. unit tests and
-2. integration tests
+1. Unit tests and
+2. Integration tests
 
 If all dependencies are installed, `yarn test` will run both the unit and
 integration tests.
@@ -106,8 +106,8 @@ make ENGINE=docker check  # can leave files owned by root
 ```
 
 The full test suite is run as a workflow via GitHub actions using Linux
-containers via `.github/workflows/benchmarking.yaml`. This includes caching and
-executing the check target from `./Makefile`.
+containers via `.github/workflows/benchmarking.yaml` which executes the check
+target from `./Makefile`.
 
 <details>
 
@@ -142,55 +142,19 @@ Modules.
 
 ### Integration tests
 
-We use [Cypress](https://cypress.io) for integration tests. If the Cypress
-dependencies are met and the `DISPLAY` environment variable is set then the
-commands below will run the integration tests.
+We use [Cypress](https://cypress.io) for integration tests.
 
-<details>
+Behind the scenes `.ci/checks.sh`: builds the application with Sapper before
+calling `src/integration-tests.js` which uses [start-server-and-test] to run a
+server and the integration tests.
 
-<summary>Cypress dependencies</summary>
-
-The following three steps set up the dependencies on Fedora 31.
-
-1. First install Node and the other operating system dependencies:
-
-   ```sh
-   sudo dnf upgrade --assumeyes &&
-   sudo dnf install --assumeyes \
-     nodejs gtk3 alsa-lib nss libXScrnSaver libcanberra-gtk3
-   ```
-
-2. Second install the yarn 1.x JavaScript package manager following [the
-   official instructions].
-
-3. Install the JavaScript dependencies:
-
-   ```sh
-   yarn install --frozen-lockfile
-   ```
-
-</details>
+To make running the tests locally more similar to the CI environment use the
+same container rather than installing Cypress. A Makefile target is
+provided as a convenience:
 
 ```sh
-yarn run sapper build
-node src/integration-tests.js
-```
-
-<details>
-
-Behind the scenes `src/integration-tests.js` uses [start-server-and-test] to run
-a server and the tests. To perform these steps separately and run the tests
-against the development server run the two commands below in separate terminals:
-
-```sh
-yarn run sapper dev
-yarn run cypress run
-```
-
-To debug integration tests try:
-
-```sh
-yarn run cypress open
+make cypres-open                  # view tests in the Cypress GUI with podman
+make ENGINE=docker cypress-open   # or docker
 ```
 
 </details>

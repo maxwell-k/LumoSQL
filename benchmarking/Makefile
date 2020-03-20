@@ -6,10 +6,13 @@ cache = --env=CYPRESS_CACHE_FOLDER="/srv/.ci/cypress_cache"
 directory = -v "$(PWD):/srv:Z" -w /srv
 timeout = --env=WAIT_ON_TIMEOUT=5000
 
+base_path = $$( $(ENGINE) run --rm $(directory) $(IMAGE) \
+	node -p 'require("./src/configuration.js").BASE_PATH')
+
 .PHONY: browse check clean copy cypress-open serve
 
 browse:
-	firefox --private-window http://127.0.0.1:3000/benchmarking-preview
+	firefox --private-window http://127.0.0.1:3000/$(base_path)
 
 check:
 	$(ENGINE) run $(cache) $(directory) $(timeout) $(IMAGE) .ci/checks.sh

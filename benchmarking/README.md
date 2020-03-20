@@ -37,29 +37,23 @@ make copy NAME=v9999
 ### Summarise and publish the benchmarking data
 
 The steps below summarise and publish the benchmarking results on GitHub pages.
-This process use Node JS and a JavaScript framework called svelte:
-
-- Make sure you have Node JS 12 or higher installed, the [official instructions]
-  may help
-- Run `yarn install` in this `benchmarking` directory
+This process use Node JS and a JavaScript framework called svelte. To avoid
+installing the dependencies
 
 Then start with this directory, `benchmarking`, as the current directory:
 
 ```sh
 export COLLECTION=production
-yarn run sapper dev                      # check everything looks OK
-test -d gh-pages || git worktree add gh-pages gh-pages
-yarn run gh-pages
-cd gh-pages
-python3 -m http.server           # check it looks good or another http server
-git commit
-git push
+make dev                                    # check everything looks OK
+make export
+make serve                                  # check again
+export GITHUB_REPOSITORY=maxwell-k/LumoSQL  # to simulate GitHub CI
+make publish
 ```
 
-Note that if data is left set then the tests on the JavaScript code will fail —
-`unset DATA`.
-
-[official instructions]: https://nodejs.org/en/download/package-manager
+If you do not wish to use containers, make sure you have Node JS 12 or higher
+installed, and the
+[yarn package manage version 1](https://classic.yarnpkg.com/lang/en/).
 
 ## Terminology
 
@@ -144,13 +138,13 @@ Modules.
 
 We use [Cypress](https://cypress.io) for integration tests.
 
-Behind the scenes `.ci/checks.sh`: builds the application with Sapper before
+Behind the scenes `.ci/check.sh`: builds the application with Sapper before
 calling `src/integration-tests.js` which uses [start-server-and-test] to run a
 server and the integration tests.
 
 To make running the tests locally more similar to the CI environment use the
-same container rather than installing Cypress. A Makefile target is
-provided as a convenience:
+same container rather than installing Cypress. A Makefile target is provided as
+a convenience:
 
 ```sh
 make cypres-open                  # view tests in the Cypress GUI with podman

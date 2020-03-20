@@ -103,7 +103,6 @@
     "apidocs": "jsdoc -c .jsdoc.conf.json",
     "check-coverage": "c8 check-coverage --functions 100 --lines 100 --branches 100 --statements 100 --per-file",
     "format": "prettier --write '*.{js,json}' '**/*.{js,json,mjs,svelte}'",
-    "gh-pages": "sapper export && rm -rf gh-pages/* && cp -r __sapper__/export/* gh-pages/ && git -C gh-pages add .",
     "lint": "eslint 'src/**' 'cypress/**' 'test/**'",
     "test": "yarn run unit && cypress run",
     "unit": "mocha --experimental-modules"

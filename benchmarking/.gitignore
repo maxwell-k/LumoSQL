@@ -2,6 +2,6 @@
 /__sapper__/
 /coverage/
 /cypress/screenshots/
-/gh-pages/
+/benchmarking-preview/
 /node_modules/
 /src/node_modules/@sapper/

@@ -6,8 +6,10 @@ cache = --env=CYPRESS_CACHE_FOLDER="/srv/.ci/cypress_cache"
 directory = -v "$(PWD):/srv:Z" -w /srv
 timeout = --env=WAIT_ON_TIMEOUT=5000
 
-base_path = $$( $(ENGINE) run --rm $(directory) $(IMAGE) \
-	node -p 'require("./src/configuration.js").BASE_PATH')
+
+run = $(ENGINE) run --rm $(directory)
+base_path = $$( \
+	$(run) $(IMAGE) -p 'require("./src/configuration.js").BASE_PATH' )
 
 .PHONY: browse check clean copy cypress-open serve
 
@@ -15,7 +17,7 @@ browse:
 	firefox --private-window http://127.0.0.1:3000/$(base_path)
 
 check:
-	$(ENGINE) run $(cache) $(directory) $(timeout) $(IMAGE) .ci/checks.sh
+	$(run) $(cache) $(timeout) $(IMAGE) .ci/check.sh
 
 clean:
 	rm -rf __sapper__ coverage src/node_modules cypress/screenshots
@@ -35,15 +37,24 @@ copy:
 	cp "$$i" "static/production/$(NAME)/$${i##$(WORKDIR)/}"; done
 
 cypress-open:
-	$(ENGINE) run -it --rm \
-		--net host \
-		--ipc host \
+	$(run) -it \
+		--net=host \
+		--ipc=host \
 		--volume=/tmp/.X11-unix:/tmp/.X11-unix \
 		--env=DISPLAY=$(DISPLAY) \
 		$(cache) \
-		$(directory) \
 		$(IMAGE) \
 		yarn run cypress open
+
+dev:
+	$(run) --env=COLLECTION -it --net=host $(IMAGE) yarn run sapper dev
+
+export:
+	$(run) --env=COLLECTION=production $(IMAGE) \
+		yarn run sapper export --basepath $(base_path)
+
+publish:
+	.ci/publish.sh $(base_path)
 
 # Serve exported assets
 # Use Python's http.server because it is likely already installed and

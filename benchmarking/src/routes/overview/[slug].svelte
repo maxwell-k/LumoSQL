@@ -127,11 +127,13 @@
   <summary>JSON</summary>
   <ul>
     <li>
-      <a href="/{route}" data-cy="data">{route}</a>
+      <a href={route} data-cy="data">/{configuration.BASE_PATH}/{route}</a>
       includes the data extracted from the HTML reports.
     </li>
     <li>
-      <a href="/schema.json" data-cy="schema">schema.json</a>
+      <a href="schema.json" data-cy="schema">
+        /{configuration.BASE_PATH}/schema.json
+      </a>
       is a
       <a href="https://json-schema.org/">JSON Schema</a>
       for that file.

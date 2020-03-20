@@ -5,22 +5,32 @@ import yaml from "js-yaml";
 import { getVersions } from "../../src/utils/arrange.mjs";
 import configuration from "../../src/configuration.js";
 
-const route = `/datasets/${configuration.DEFAULT_DATA_SET}.json`;
+const route = `datasets/${configuration.DEFAULT_DATA_SET}.json`;
 
 describe("/", () => {
   beforeEach(() => {
     cy.visit("/");
   });
+  function linkToJson(a) {
+    cy.request(a.prop("href"))
+      .its("headers")
+      .its("content-type")
+      .should("include", "application/json");
+  }
   it("has the correct <h1>", () => {
     cy.get("h1")
       .invoke("text")
       .should("eq", "JavaScript Test Data");
   });
-  it(`links to ${route}`, () => {
-    cy.get("[data-cy=data]").should("have.attr", "href", route);
+  it(`links to ${route} JSON`, () => {
+    cy.get("[data-cy=data]")
+      .should("have.text", `/${configuration.BASE_PATH}/${route}`)
+      .then(linkToJson);
   });
-  it("links to /schema.json", () => {
-    cy.get("[data-cy=schema]").should("have.attr", "href", "/schema.json");
+  it(`links to a JSON schema`, () => {
+    cy.get("[data-cy=schema]")
+      .should("have.text", `/${configuration.BASE_PATH}/schema.json`)
+      .then(linkToJson);
   });
   it(`links to v2`, () => {
     cy.get("nav a:first").should("have.attr", "href", "overview/v2");

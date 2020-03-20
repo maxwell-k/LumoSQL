@@ -22,11 +22,11 @@
   import All from "../../components/All.svelte";
   import configuration from "../../configuration.js";
 
-  const runs = getRunNames(dataset);
-  const versions = getVersions(dataset);
-  const tests = getTestNames(dataset);
-  const table = medians(arraysToMaps(dataset.runs));
-  const paths = dataset.paths;
+  $: runs = getRunNames(dataset);
+  $: versions = getVersions(dataset);
+  $: tests = getTestNames(dataset);
+  $: table = medians(arraysToMaps(dataset.runs));
+  $: paths = dataset.paths;
 
   let denominatorIndex = null;
 </script>

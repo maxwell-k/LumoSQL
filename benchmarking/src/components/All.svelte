@@ -10,10 +10,10 @@
   export let dataset;
 
   const digits = 4;
-  const runs = getRunNames(dataset);
-  const tests = getTestNames(dataset);
-  const versions = getVersions(dataset);
-  const nested = arraysToMaps(dataset.runs);
+  $: runs = getRunNames(dataset);
+  $: tests = getTestNames(dataset);
+  $: versions = getVersions(dataset);
+  $: nested = arraysToMaps(dataset.runs);
 </script>
 
 <style>

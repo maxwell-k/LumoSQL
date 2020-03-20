@@ -20,6 +20,7 @@
   } from "../../utils/arrange.mjs";
   import { column } from "../../utils/format.mjs";
   import All from "../../components/All.svelte";
+  import configuration from "../../configuration.js";
 
   const runs = getRunNames(dataset);
   const versions = getVersions(dataset);
@@ -140,10 +141,10 @@
 
 <details>
   <summary>Raw data</summary>
-  <ul>
+  <ul data-cy="raw-data">
     {#each paths as path}
       <li>
-        <a href={path}>{path}</a>
+        <a href={path}>/{configuration.BASE_PATH}/{path}</a>
       </li>
     {/each}
   </ul>

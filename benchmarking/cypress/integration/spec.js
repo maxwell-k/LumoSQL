@@ -25,6 +25,14 @@ describe("/", () => {
   it(`links to v2`, () => {
     cy.get("nav a:first").should("have.attr", "href", "overview/v2");
   });
+  it(`links to HTML pages`, () => {
+    cy.get("[data-cy=raw-data] > :nth-child(1) > a")
+      .should("have.attr", "href", "test/v1/1/LMDB_0.9.16.html")
+      .and(
+        "have.text",
+        `/${configuration.BASE_PATH}/test/v1/1/LMDB_0.9.16.html`
+      );
+  });
 });
 describe("/overview/v2", () => {
   beforeEach(() => {

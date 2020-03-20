@@ -1,0 +1,13 @@
+on: { push }
+# on: { push: { branches: [trying] } }
+
+jobs:
+  check_rebase:
+    runs-on: ubuntu-latest
+    name: Publish to GitHub pages
+    steps:
+      - uses: actions/checkout@v2
+      - name: Try running keyscan
+        run: |
+          mkdir ~/.ssh
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
